@@ -97,12 +97,12 @@ Corresponding to each of the five major gridding steps, there is a section in th
 
 As seen above, the ESTA code base has modules for each of the ESTA gridding steps. But the classes in these modules are simply subclasses of those in the core. So to understand the function of ESTA, you only need to understand the core. The rest are implementation details specific to the science involved. The easiest file to understand is `version.py`, which sets the current version of ESTA, which is printed to the screen at the beggining of each run. Each step in the gridding process is represented in ESTA by an abstract class in `src.core`:
 
-    **emissions loading** --> `EmissionsLoader`
-    **spatial surrogate loading** --> `SpatialLoader`
-    **temporal surrogate loading** --> `TemporalLoader`
-    **emissions scaling step** --> `EmissionsScaler`
-    **output writing** --> `OutputWriter`
-    **QA/QC** --> `OutputTester`
+ * **emissions loading** --> `EmissionsLoader`
+ * **spatial surrogate loading** --> `SpatialLoader`
+ * **temporal surrogate loading** --> `TemporalLoader`
+ * **emissions scaling step** --> `EmissionsScaler`
+ * **output writing** --> `OutputWriter`
+ * **QA/QC** --> `OutputTester`
 
 Notice that in the config file there is a single major section for `[Surrogates]`, but under the hood there are separate abstract classes for spatial surrogates and temporal surrogates. This was a design choice to leave open the option that a single file might represent the spatial and temporal distribution of the emissions, so they would have to be loaded by the same class.
 
@@ -123,25 +123,25 @@ Here you can see that the emissions loader instance (subclassed from `EmissionsL
 ESTA comes with several helpful data structures specifically designed for the emissions gridding process:
 
 * from src.emissions.emissions_table import EmissionsTable
- * A subclass of Python's `collections.defaultdict`
- * Two levels of keys: EIC and pollutant
- * final value is emissions (a float)
+  * A subclass of Python's `collections.defaultdict`
+  * Two levels of keys: EIC and pollutant
+  * final value is emissions (a float)
 * from src.emissions.sparce_emissions import SparceEmissions
- * A subclass of Python's `collections.defaultdict`
- * Two levels of keys: grid cell tuple and pollutant
- * final value is emissions (a float)
+  * A subclass of Python's `collections.defaultdict`
+  * Two levels of keys: grid cell tuple and pollutant
+  * final value is emissions (a float)
 * from src.emissions.scaled_emissions import ScaledEmissions
- * simple multi-level dictionary container
- * the keys are, in order: region, date, hr, eic
- * the values are of type `SparceEmissions`
+  * simple multi-level dictionary container
+  * the keys are, in order: region, date, hr, eic
+  * the values are of type `SparceEmissions`
 * from src.surrogates.spatial_surrogate import SpatialSurrogate
- * A subclass of Python's `collections.defaultdict`
- * key is a grid cell location tuple
- * value is fraction of the emissions in that grid cell
+  * A subclass of Python's `collections.defaultdict`
+  * key is a grid cell location tuple
+  * value is fraction of the emissions in that grid cell
 * from src.surrogates.temporal_surrogate import TemporalSurrogate
- * A subclass of Python's `array.array`
- * The array has length 24
- * Elments of array sum to 1.0
+  * A subclass of Python's `array.array`
+  * The array has length 24
+  * Elments of array sum to 1.0
 
 ## Important Algorithms
 
@@ -155,7 +155,7 @@ In the section above on ESTA's native data structures, the classes `SparceEmissi
 
 #### KD Trees
 
-The [KD Trees Algorithm][KDTrees] is fundamental to the performance of the on-road modeling in ESTA. The KD Trees algorithm is a space-partitioning algorithm that is used in ESTA to dramatically improve the speed of locating lat/lon coordinates on the modeling grid.
+The [KD Trees Algorithm](https://en.wikipedia.org/wiki/K-d_tree) is fundamental to the performance of the on-road modeling in ESTA. The KD Trees algorithm is a space-partitioning algorithm that is used in ESTA to dramatically improve the speed of locating lat/lon coordinates on the modeling grid.
 
 The problem that needs to be solved (as quickly and accurately as possible) is this: given a lat/lon pair, determine which grid cell it is inside on the modeling domain. The problem is that the modeling grid can be arbitarily large, and searching through every grid cell is prohibitively slow. And the problem is further complicated by the fact that the modeling grid can be in any arbitrary projection.
 
@@ -324,7 +324,3 @@ And this would print a nicely-formatted dictionary (JSON/Python) to the screen, 
 
 
 [Back to Main Readme](../README.md)
-
-
-[KDTrees][https://en.wikipedia.org/wiki/K-d_tree]
-
