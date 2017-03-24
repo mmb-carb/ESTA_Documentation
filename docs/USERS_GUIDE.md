@@ -2,6 +2,23 @@
 
 The purpose of this document is to show new users how to run ESTA. This does not present what ESTA does, or how it works, you can find that in the [User Documentation](USER_DOCS.md).
 
+## Table of Contents
+
+* [How to Run a Default Case](#how-to-run-a-default-case)
+* [Config Files](#config-files)
+  * [General Config Ideas](#general-config-ideas)
+  * [Choosing a Class](#choosing-a-class)
+* [Config File Sections](#config-file-sections)
+  * [Dates](#dates)
+  * [Regions](#regions)
+  * [GridInfo](#gridinfo)
+  * [Surrogates](#surrogates)
+  * [Emissions](#emissions)
+  * [Scaling](#scaling)
+  * [Output](#output)
+  * [Testing](#testing)
+  * [Misc](#misc)
+
 ## How to Run a Default Case
 
 ESTA comes with some default configuration and input files, so you can test the model and learn how to use it. The first test is to generate on-road emissions on the 4km California modeling domain. Go to the command line and type:
