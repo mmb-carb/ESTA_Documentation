@@ -2,6 +2,25 @@
 
 ESTA is a Python-based model. It is designed as a stand-alone program, not as an installable Python library. The purpose of this document is to aquaint a potential developer with the ESTA code base so they can add new components and make updates to the model. An understanding of object-oriented programming in Python is assumed.
 
+## Table of Contents
+
+* [Installation](#installation)
+* [Design Goals](#design-goals)
+* [Architecture and Code Structure](#architecture-and-code-structure)
+  * [General Structure](#general-structure)
+  * [The Core](#the-core)
+  * [ESTA Data Structures](#esta-data-structures)
+* [Important Algorithms](#important-algorithms)
+  * [Sparce Matricies](#sparce-matricies)
+  * [KD Trees](#kd-trees)
+* [Developing for ESTA](#developing-for-esta)
+  * [Implementing Your Own Step](#implementing-your-own-step)
+  * [Defining a New Domain](#defining-a-new-domain)
+
+## Installation
+
+ESTA is designed to run on any major operating system using Python 2.7.x.  It requires a number of potential third-party libraries, depending on what you want to do.  For a list of these dependencies and their versions, the ESTA main folder includes a Python-standard `requirements.txt` file.
+
 ## Design Goals
 
 Modularity is a primary design goal for ESTA. Applying spatial surrogates and gridding an inventory is not, generally, a hard problem. The hard work is typically: (1) file wrangling, and (2) the need for continuous updating. The goal is that ESTA should be sufficiently generic to allow for the gridding of any emission inventory, not just on-road inventories (which were the first, primary use of the model).
@@ -10,17 +29,13 @@ The term modularity here is used to describe a model whose operation can be chan
 
 ESTA was developed for Python 2.7.x, and needs to be able to run from the command line in a Linux environment. It should also run under Windows and the Mac OS, though these are not tested as often.
 
-## Installation
-
-ESTA is designed to run on any major operating system using Python 2.7.x.  It requires a number of potential third-party libraries, depending on what you want to do.  For a list of these dependencies and their versions, the ESTA main folder includes a Python-standard `requirements.txt` file.
-
 ## Architecture and Code Structure
 
 ESTA makes use of Python's object-oriented functionality to achieve the modularity described above. Each step in the modeling process is defined by an abstract class. And users select which versions of each step they want in the config file by directly listing the class names. In addition, a few very general data structures are defined to hold the: emissions data, spatial surrogates, temporal surrogates, and final gridded emissions.
 
 What follows is a quick introduction into ESTAs basic code structure. Not every subclass of the core abstract classes will be shown, as ESTA will hopefully grow over time. Instead, a single example implementation of each core abstract class will be discussed.
 
-#### General Structure
+### General Structure
 
 Here is a basic diagram of ESTA's code structure, including some default on-road classes:
 
@@ -96,7 +111,7 @@ Corresponding to each of the five major gridding steps, there is a section in th
     [Output] --> src.output
     [Testing] --> src.testing
 
-#### The Core
+### The Core
 
 As seen above, the ESTA code base has modules for each of the ESTA gridding steps. But the classes in these modules are simply subclasses of those in the core. So to understand the function of ESTA, you only need to understand the core. The rest are implementation details specific to the science involved. The easiest file to understand is `version.py`, which sets the current version of ESTA, which is printed to the screen at the beggining of each run. Each step in the gridding process is represented in ESTA by an abstract class in `src.core`:
 
@@ -109,7 +124,7 @@ As seen above, the ESTA code base has modules for each of the ESTA gridding step
 
 Notice that in the config file there is a single major section for `[Surrogates]`, but under the hood there are separate abstract classes for spatial surrogates and temporal surrogates. This was a design choice to leave open the option that a single file might represent the spatial and temporal distribution of the emissions, so they would have to be loaded by the same class.
 
-#### ESTA Data Structures
+### ESTA Data Structures
 
 The ESTA model is designed to be independent of the data structures that are passed between each modeling step.  That is, there are no data structures defined in `src.core`, and the abstract step classes in `src.core` are independent of the data structure used. However, in order for the steps to work together, the subclasses of each step will have to be designed with knowledge some data structures to pass data around.
 
@@ -150,13 +165,13 @@ ESTA comes with several helpful data structures specifically designed for the em
 
 This section is by no means meant to be an exhaustive study of all the algorithms used in ESTA. This is meant only to highlight those algorithms that were key in the design.
 
-#### Sparce Matrix Design
+### Sparce Matricies
 
 Sparce-matrix design is important to ESTA. The term "sparce-matrix" is used here to describe the design goal of describing the spatial distribution of emissions (or spatial surrogates) using a collection of key-value pairs, where the key is a two or three-dimensional tuple describing a grid cell and the value is an emission value or fraction. This is an alternative to simply defining a ROW-by-COLUMN dimensional array to store a value in every grid cell in the modeling domain. The reason a sparce matrix approach was chosen in ESTA is that it is very common for most of the grid cells in a modeling domain to have zero values. And in most scenarios, modeling will take a lot less memory if a sparce matrix approach is used
 
 In the section above on ESTA's native data structures, the classes `SparceEmissions` and `SpatialSurrogate` use this sparce matrix design.
 
-#### KD Trees
+### KD Trees
 
 The [KD Trees Algorithm](https://en.wikipedia.org/wiki/K-d_tree) is fundamental to the performance of the on-road modeling in ESTA. The KD Trees algorithm is a space-partitioning algorithm that is used in ESTA to dramatically improve the speed of locating lat/lon coordinates on the modeling grid.
 
@@ -214,7 +229,7 @@ ESTA is designed to be easily expanded by developers. The modular design means t
 
 A common problem for scientists and engineers is that they spend more time wrangling files than analyzing their data. In ESTA, you can write a single class to read or write any file type. And once this class is placed correctly into ESTA, you never need to worry about file wrangling again. The goal of software should always be to help people get things done, not to be a drain on their time. For that reason, ESTA is 100% configurable and makes no demands on the structure of your input/output files or on the data structures you pass around.
 
-#### Implementing Your Own Step
+### Implementing Your Own Step
 
 Perhaps the most important design goal in ESTA is the ability to replace a step with one of your own. Let's look at an example of doing just that. In the example below, we create a special temporal surrogate: `RushHour`. In this new temporal surrogate, all onroad traffic will happen in two hours of the day (8AM and 5PM), the other 22 hours of the day will have no traffic.
 
@@ -279,7 +294,7 @@ To recap the above process:
 5. Make sure your file name is the lower case of your class name: `MyClass` is in `myclass.py`.
 6. Point to your new class in the config file.
 
-#### Defining a New Domain
+### Defining a New Domain
 
 It is fairly simple to implement a new modeling domain in ESTA. It all depends on finding (or creating) a CMAQ-ready `GRIDCRO2D` file. This is a CMAQ-standard file, with a long history, that defines the lat/lon bounding boxes of each grid cell in a modeling domain. The decision was made to use these files as the best way to define the grid because:
 
