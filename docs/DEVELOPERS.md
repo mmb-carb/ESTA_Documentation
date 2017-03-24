@@ -10,6 +10,10 @@ The term modularity here is used to describe a model whose operation can be chan
 
 ESTA was developed for Python 2.7.x, and needs to be able to run from the command line in a Linux environment. It should also run under Windows and the Mac OS, though these are not tested as often.
 
+## Installation
+
+ESTA is designed to run on any major operating system using Python 2.7.x.  It requires a number of potential third-party libraries, depending on what you want to do.  For a list of these dependencies and their versions, the ESTA main folder includes a Python-standard `requirements.txt` file.
+
 ## Architecture and Code Structure
 
 ESTA makes use of Python's object-oriented functionality to achieve the modularity described above. Each step in the modeling process is defined by an abstract class. And users select which versions of each step they want in the config file by directly listing the class names. In addition, a few very general data structures are defined to hold the: emissions data, spatial surrogates, temporal surrogates, and final gridded emissions.
