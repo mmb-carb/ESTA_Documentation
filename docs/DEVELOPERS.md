@@ -1,6 +1,6 @@
 # ESTA Developers Guide
 
-ESTA is a Python-based model. It is designed as a stand-alone program inside a working environment, not as an installable Python library. The purpose of this document is to aquaint a potential developer with the ESTA code base so they can add new components and make updates to the model. An understanding of object-oriented programming in Python is assumed.
+ESTA is a Python-based model. It is designed as a stand-alone program, not as an installable Python library. The purpose of this document is to aquaint a potential developer with the ESTA code base so they can add new components and make updates to the model. An understanding of object-oriented programming in Python is assumed.
 
 ## Design Goals
 
@@ -31,7 +31,6 @@ Here is a basic diagram of ESTA's code structure, including some default on-road
     ├─── requirements.txt
     │
     ├─── config/
-    ├─── docs/
     ├─── input/
     ├─── output/
     └─── src/
