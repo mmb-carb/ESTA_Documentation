@@ -1,4 +1,4 @@
-# ESTA USER Documentation
+# ESTA Basic Introduction
 
 The purpose of this document is give a clear understanding of what ESTA is, and what it does. This is not meant as a guide to how to run ESTA, you will find that in the [User Guide](USERS_GUIDE.md).
 
