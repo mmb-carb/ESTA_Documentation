@@ -15,6 +15,10 @@ For more information about how to use ESTA, please see:
 
 * [The User's Guide](docs/USERS_GUIDE.md)
 
+For information about the default spatial and temporal surrogates included in ESTA, please see:
+
+* [The Surrogate Guide](docs/SURROGATES.md)
+
 If you are a developer, looking to understand or improve ESTA, please see:
 
 * [The Developer's Guide](docs/DEVELOPERS.md)
