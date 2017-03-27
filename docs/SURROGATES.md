@@ -61,6 +61,17 @@ Here is an exmample plot of the Calvad-based VMT surrogate for Wednesdays in Cal
 
 The [CalTrans CSTDM](http://www.dot.ca.gov/hq/tpp/offices/omsp/statewide_modeling/cstdm.html) is a link-level travel-demand model, run every five years using a huge variety of real data.  To produce a spatial surrogate for linehaul vehicles, the 2010 CSTDM outputs were obtained. Then, in ArcMap, the V10 vehicle class was extracted for all links labeled as "major highway", and these links were weighted by VMT.  
 
+Eight of the EMFAC 2014 vehicle categories are defined by the EMFAC model as "linehaul vehicles":
+
+* T6 CAIRP Heavy
+* T6 Instate Heavy
+* T6 OOS Heavy
+* T7 CAIRP
+* T7 NNOOS
+* T7 NOOS
+* T7 Single
+* T7 Tractor
+
 The result is probably the most reliable VMT spatial surrogate for linehaul vehicles that has ever been produced for California:
 
 ![ARB Linehaul Surrogate](resources/ON_ROAD_CA_100_4km_2010.png)
