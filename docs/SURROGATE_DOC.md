@@ -6,7 +6,6 @@ ESTA is a gridding model that takes raw emissions and applies spatial and tempor
 ## Table of Contents
 
 * [Spatial Surrogates](#spatial-surrogates)
-  - [DTIM On-Road Spatial Surrogates](#dtim-on-road-spatial-surrogates)
   - [ARB On-Road Spatial Surrogates](#arb-on-road-spatial-surrogates)
     + [Calvad VMT by Day-of-Week and Period](#calvad-vmt-by-day-of-week-and-period)
     + [Linehaul](#linehaul)
@@ -15,6 +14,7 @@ ESTA is a gridding model that takes raw emissions and applies spatial and tempor
     + [Idling Locations](#idling-locations)
     + [30 Idle - 70 Dist](#30-idle---70-dist)
     + [90 Idle - 10 Dist](#90-idle---10-dist)
+  - [DTIM On-Road Spatial Surrogates](#dtim-on-road-spatial-surrogates)
 * [Temporal Surrogates](#temporal-surrogates)
   - [Calvad-Based On-Road Diurnal Temporal Surrogates](#calvad-based-on-road-diurnal-temporal-surrogates)
   - [Calvad-Based On-Road Day-of-Week Temporal Surrogates](#calvad-based-on-road-day-of-week-temporal-surrogates)
@@ -23,11 +23,6 @@ ESTA is a gridding model that takes raw emissions and applies spatial and tempor
 ## Spatial Surrogates
 
 Several spatial surrogates are included in ESTA. These are all examples of on-road spatial surrogates designed to disaggregate EMFAC emissions on the California modeling grid. They are divided into two cases: one for a simple DTIM-like run and a second for a more modern simultation using a wider variety of data sources.
-
-
-### DTIM On-Road Spatial Surrogates
-
-TODO
 
 
 ### ARB On-Road Spatial Surrogates
@@ -118,6 +113,17 @@ This 90/10 split was designed to match the EMFAC2014 assumption that nearly all 
 There is some discussion of whether 90/10 or 95/5 is a better split for this surrogate. Perhaps this will change in the future versions of EMFAC. If so, it will be changed to match in ESTA.
 
 ![90/10 Idling Surrogate](resources/ON_ROAD_CA_139_4km_2012.png)
+
+
+### DTIM On-Road Spatial Surrogates
+
+The DTIM mode in ESTA allows ESTA to read in DTIM-ready Link and TAZ input files. These are, in turn, used to spatially distribute emissions like DTIM does: via either VMT for moving emissions or by TAZ-centroids for stationary emissions. Statationary emissions, of course, being starting emissions and the various resting loses. The only aspect of DTIM's spatially disaggregation that ESTA does not duplicate is the slight change in emissions in individual grid cells based on grid-cell variation of meteorology. ESTA accounts for this meteorology by running EMFAC using county-wide meteorology that has been VMT-averaged.
+
+Since DTIM spatial surrogates are determine on-the-fly by ESTA for given DTIM-ready Link or TAZ files, there are no example surrogates included in ESTA. Though there are example Link and TAZ files included at:
+
+    input/examples/onroad_emfac2014_santa_barbara/dtim4_gai_2012/057/dtim_link_057_tuth_17.dat
+    input/examples/onroad_emfac2014_santa_barbara/dtim4_gai_2012/057/dtim_taz_057_tuth_17.dat
+
 
 ## Temporal Surrogates
 
