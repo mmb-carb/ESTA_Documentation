@@ -11,6 +11,8 @@ ESTA is a gridding model that takes raw emissions and applies spatial and tempor
     + [Calvad VMT by Day-of-Week and Period](#calvad-vmt-by-day-of-week-and-period)
     + [Linehaul](#linehaul)
     + [City Population](#city-population)
+    + [Distribution Centers](#distribution-centers)
+    + [Idling Locations](#idling-locations)
     + [30 Idle - 70 Dist](#30-idle---70-dist)
     + [90 Idle - 10 Dist](#90-idle---10-dist)
 * [Temporal Surrogates](#temporal-surrogates)
@@ -55,6 +57,10 @@ Spatial surrogates were averaged from the entire 2012 data set, for eight differ
 
 Thus, between the four time periods and eight days, ARB uses 32 Calvad-based VMT spatial surrogates when griding EMFAC on-road emissions.
 
+Here is an exmample plot of the Calvad-based VMT surrogate for Wednesdays in California in 2012, during the "AM Peak" (or "Morning Rush Hour"):
+
+![Calvad VMT for Wednesdays 2012 AM](resources/ON_ROAD_CA_309_4km_2012.png)
+
 #### Linehaul
 
 The [CalTrans CSTDM](http://www.dot.ca.gov/hq/tpp/offices/omsp/statewide_modeling/cstdm.html) is a link-level travel-demand model, run every five years using a huge variety of real data.  To produce a spatial surrogate for linehaul vehicles, the 2010 CSTDM outputs were obtained. Then, in ArcMap, the V10 vehicle class was extracted for all links labeled as "major highway", and these links were weighted by VMT.  
@@ -73,14 +79,44 @@ To improve upon this, 2012 Census information on the number of households in eac
 
 ![ARB City Population Surrogate](resources/ON_ROAD_CA_110_4km_2013.png)
 
+#### Distribution Centers
+
+This surrogate is not used directly as an ESTA default, but rather as part of combined surrogates.
+
+The Distribution Centers surrogate data set was originally the work of Cheryl Taylor at the ARB, along with several stakeholders in the California SIP Inventory Working group. In 2015, Cheryl accessed the data from ARB Equipment Registration (ARBER) data set. ARBER is an online registration program for the Transportation Refrigeration Unit and the Drayage Truck Regulations. In cooperation with Carolyn Craig and Rich Boyd of the ARBER team, a shapefile was created that included all kinds of distribution centers in California which might have HDV traffic. 
+
+#### Idling Locations
+
+This surrogate is not used directly as an ESTA default, but rather as part of combined surrogates.
+
+The data for this surrogate came from two sources:
+
+1. The US EPA's "idling locations" dataset. This was retrieved from their FTP servers in early April, 2016 as a shapefile.
+2. The CalTrans "rest stops" dataset. This was retrieved as a shapefile from their website: http://www.dot.ca.gov/hq/tsip/gis/datalibrary/Metadata/RestArea.html
+
+Many duplicate locations were found between the two datasets, and had to be removed. The results were originally combined into a shapefile. To help weight which locations had more traffic then others, a detailed, manual hand-count was undertaken on Google Earth. The number of parking spots available, big enough for a single linehaul truck with trailer, were counted for each and every location from each of the above two data sets. The process was laborious, but yielded a shapefile that could be easily weight by the number of parking spots in each location.
+
+The number of parking spots was determined to be the best way to represent how active an individual idling location or rest stop may be. This is thought to be the most analytical and complete comparison possible until such a time as extensive measurements are made of idling time at all of California's linehaul truck idling locations.
+
 #### 30 Idle - 70 Dist
 
-TODO
+This surrogate is simply a weighted sum of 30 percent of the Idling Locations surrogate above with 70 percent of the Distribution Centers surrogate above. In counties or GAIs where neither surrogate has any value, the missing data is filled in with the CalTrans CSTDM linehaul trucking surrogate.
+
+The 30/70 split was derived from the data on [this page](http://energy.gov/eere/vehicles/fact-917-march-21-2016-work-truck-daily-idle-time-industry) of the energy.gov website.
+
+This was used as a reference because the EMFAC team also used it as a reference, and it is useful that both models have the same underlying assumptions. The 30/70 split itself was derived by taking a weighted average of the time spent idling in different locations, across all non-line-haul heavy-duty vehicle types. This turned out to be about 24-32%, for different HD trucks. So this is the time-split between how much idling is done at the kinds of places line haul trucks idle versus other locations, like distribution centers.
+
+![30/70 Idling Surrogate](resources/ON_ROAD_CA_133_4km_2012.png)
 
 #### 90 idle - 10 dist
 
-TODO
+This surrogate is simply a weighted sum of 90 percent of the Idling Locations surrogate above with 10 percent of the Distribution Centers surrogate above. In counties or GAIs where neither surrogate has any value, the missing data is filled in with the CalTrans CSTDM linehaul trucking surrogate.
 
+This 90/10 split was designed to match the EMFAC2014 assumption that nearly all of the idling done by linehaul trucks happens at places like truck stops. This is because line haul truckers can, and frequently must, sleep in the cab of their vehicle with the engine running in an idling mode.
+
+There is some discussion of whether 90/10 or 95/5 is a better split for this surrogate. Perhaps this will change in the future versions of EMFAC. If so, it will be changed to match in ESTA.
+
+![90/10 Idling Surrogate](resources/ON_ROAD_CA_139_4km_2012.png)
 
 ## Temporal Surrogates
 
