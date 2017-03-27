@@ -16,7 +16,8 @@ ESTA is a gridding model that takes raw emissions and applies spatial and tempor
     + [30 Idle - 70 Dist](#30-idle---70-dist)
     + [90 Idle - 10 Dist](#90-idle---10-dist)
 * [Temporal Surrogates](#temporal-surrogates)
-  - [Calvad-Based On-Road Temporal Surrogates](#calvad-based-on-road-temporal-surrogates)
+  - [Calvad-Based On-Road Diurnal Temporal Surrogates](#calvad-based-on-road-diurnal-temporal-surrogates)
+  - [Calvad-Based On-Road Day-of-Week Temporal Surrogates](#calvad-based-on-road-day-of-week-temporal-surrogates)
 
 
 ## Spatial Surrogates
