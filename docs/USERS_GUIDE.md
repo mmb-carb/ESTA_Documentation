@@ -77,7 +77,7 @@ There are five major steps in the emissions inventory gridding process, each of 
 
 In addition to those, ESTA has four other standard config sections:
 
-1. **Dates** - define the the time span of the run
+1. **Dates** - define the time span of the run
 2. **Regions** - define the counties, GAIs, states, or other regions in your run
 3. **GridInfo** - define your modeling domain
 4. **Miscellaneous** - a catch-all, for shared resources or anything you want
@@ -108,7 +108,7 @@ A typical example might be:
 
 The purpose of this config section is to allow users to define which counties, states, or other regions they are modeling.  And supply extra information about the region definitions.
 
-For instance, if you wanted to select all 69 GAIs in California, you would use the `..` notation to define a range:
+For instance, if you wanted to select all 69 GAIs (Geographic Area of Interest) in California, you would use the `..` notation to define a range:
 
     regions: 1..69
 
@@ -211,7 +211,7 @@ The `spatial_loaders` variable is a space-separated list of class names used to 
 
 The remaining four variables in the default config files are specific to on-road processing with EMFAC. The `calvad_dow` file is a simple CSV relating the total emissions for different vehicle classes and counties by day-of-week, relative to the typical weekday emissions output by EMFAC. The `calvad_diurnal` is a similar file for the diurnal patterns of various vehicle classes. Both of these files were taken from the CALVAD vehicle activity database.
 
-Finally, when `Smoke4Dtim4Loader` is given as a class for the `spatial_loaders` option, a list of SMOKE-ready spatial surrogates, `smoke4_surrogates`, needs to be provided along with the `eic_info` label to map EICs to each of these surrogates.
+Finally, when `Smoke4Dtim4Loader` is given as a class for the `spatial_loaders` option, a list of SMOKE-ready spatial surrogates, `smoke4_surrogates`, needs to be provided along with the `eic_info` label to map EICs (Emissions Inventory Codes) to each of these surrogates.
 
 #### eic_info
 
@@ -229,7 +229,7 @@ The `eic_info.py` file is used to help connect various data to each on-road Emis
 
 In particular, each EIC maps to a tuple with three elements:
 
-1. The DTIM Column: The column (0-25) in the DTIM Link file that covers this EIC.
+1. The DTIM Column: The column (0-25) in the DTIM Link file that covers this EIC. <Do we always need DTIM column>
 2. Spatial Surrogate Code: A string representing which SMOKE v4 spatial surrogate that is used to cover this EIC.
 3. Scaling Fraction: This fraction is used to scale the emissions from this EIC. If the fraction is 1.0, the emissions are left unchanged. If the fraction is 0.5, you reduce the emissions by 50%. If the fraction is 3, you triple the emissions.
 
@@ -297,7 +297,7 @@ The Calvad day-of-week profiles are given by GAI, day-of-week, and the four Calv
     1,2,mon,1.006282,0.948747,0.913910,1
     1,3,tuth,1,1,1,1
 
-Note that, by definition, we do not adjust the emissions from EMFAC for Tuesday-through-Thursday days.  This is because EMFAC is designed for these days, and is quite reliable. The purpose of the day-of-week emissions adjustments is to improve the accuracy for the rest of the days of the year.
+Note that, by definition, we do not adjust the emissions from EMFAC for Tuesday-through-Thursday days.  This is because EMFAC is designed to output emissions for a typical week day. The purpose of the day-of-week emissions adjustments is to reflect the different traffic activity for other days of the week like Monday, Friday, Weekend and Holidays.
 
 As long as the developer keeps this file format the same, they can easily interchange this data with their own temporal profiles. For instance, if they have better data in their own local region for a particular vehicle type.
 
@@ -413,7 +413,7 @@ Example Location:
 
     input/defaults/emfac2014/nh3/rf2082_b_2012_20160212_onroadnh3.csv
 
-The NH3/CO inventory CSV file contains the NH3 and CO emissions from all on-road EICs, for all regions in California. This file is necessary because EMFAC2014 does not output NH3 emissions from on-road sources, but the NH3 is important in photochemical modeling.  This file is used ad-hoc to calculate NH3 emissions from the CO emissions given by EMFAC.
+The NH3/CO inventory CSV file contains the NH3 and CO emissions from all on-road EICs, for all regions in California. This file is necessary because EMFAC2014 does not output NH3 emissions from on-road sources, but the NH3 is important in photochemical modeling.  This file is used ad-hoc to calculate NH3 emissions from the CO emissions given by EMFAC. (<We should write NH3 as provided instead of estimating it from CO>)
 
 The file format is used elsewhere at CARB, so several of the columns are unused:
 
