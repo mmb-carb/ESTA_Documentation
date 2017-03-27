@@ -1,4 +1,4 @@
-# ESTA Surrogate Documentation
+# ESTA Surrogate Guide
 
 ESTA is a gridding model that takes raw emissions and applies spatial and temporal surrogates. Of course, ESTA users can include any new spatial or temporal surrogates they want in their modeling. But, several spatial surrogates are included in ESTA for gridding on-road emissions in California. And since they are included with the model, they should be explained. This page describes all the spatial and temporal surrogates included in ESTA by default, where they came from, and what their purpose.
 
