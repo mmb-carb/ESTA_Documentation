@@ -25,7 +25,7 @@ ESTA is designed to run on any major operating system using Python 2.7.x.  It re
 
 Modularity is a primary design goal for ESTA. Applying spatial surrogates and gridding an inventory is not, generally, a hard problem. The hard work is typically: (1) file wrangling, and (2) the need for continuous updating. The goal is that ESTA should be sufficiently generic to allow for the gridding of any emission inventory, not just on-road inventories (which were the first, primary use of the model).
 
-The term modularity here is used to describe a model whose operation can be changed greatly by the non-programming end-user through a simple config file. The process of gridding an inventory is broken into six steps, each of which is defined by a piece of code that is independent and replacable. In this way, the end-user can simply ask for different choices for each step, and gain great power over their ESTA model run.
+The term modularity here is used to describe a model whose operation can be changed greatly by the non-programming end-user through a simple config file. The process of gridding an inventory is broken into six steps, each of which is defined by a piece of code that is independent and replaceable. In this way, the end-user can simply ask for different choices for each step, and gain great power over their ESTA model run.
 
 ESTA was developed for Python 2.7.x, and needs to be able to run from the command line in a Linux environment. It should also run under Windows and the Mac OS, though these are not tested as often.
 
@@ -126,7 +126,7 @@ Notice that in the config file there is a single major section for `[Surrogates]
 
 ### ESTA Data Structures
 
-The ESTA model is designed to be independent of the data structures that are passed between each modeling step.  That is, there are no data structures defined in `src.core`, and the abstract step classes in `src.core` are independent of the data structure used. However, in order for the steps to work together, the subclasses of each step will have to be designed with knowledge some data structures to pass data around.
+The ESTA model is designed to be independent of the data structures that are passed between each modeling step.  That is, there are no data structures defined in `src.core`, and the abstract step classes in `src.core` are independent of the data structure used. However, in order for the steps to work together, the subclasses of each step will have to be designed with knowledge of some data structures to pass data around.
 
 For instance, in the master run script `src.core.esta_model.py`, you will find the following lines in the `EstaModel` class:
 
@@ -171,7 +171,7 @@ Sparce-matrix design is important to ESTA. The term "sparce-matrix" is used here
 
 In the section above on ESTA's native data structures, the classes `SparceEmissions` and `SpatialSurrogate` use this sparce matrix design.
 
-### KD Trees
+### KD Trees  (<Did you keep this portion of the CODE?. I tought we moved away from locating lat/lon/ITN>)
 
 The [KD Trees Algorithm](https://en.wikipedia.org/wiki/K-d_tree) is fundamental to the performance of the on-road modeling in ESTA. The KD Trees algorithm is a space-partitioning algorithm that is used in ESTA to dramatically improve the speed of locating lat/lon coordinates on the modeling grid.
 
