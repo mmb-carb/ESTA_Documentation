@@ -14,6 +14,23 @@ TODO
 
 TODO
 
+#### Linehaul
+
+TODO
+
+#### 70/30
+
+TODO
+
+#### 90/10
+
+TODO
+
+#### Calvad VMT HDV... etcetera
+
+TODO
+
+
 ## Temporal Surrogates
 
 TODO: Intro
