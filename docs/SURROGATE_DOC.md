@@ -61,11 +61,17 @@ The [CalTrans CSTDM](http://www.dot.ca.gov/hq/tpp/offices/omsp/statewide_modelin
 
 The result is probably the most reliable VMT spatial surrogate for linehaul vehicles that has ever been produced for California:
 
-![ARB Linehaul Surrogate](resources/ 	ON_ROAD_CA_100_4km_2010.png)
+![ARB Linehaul Surrogate](resources/ON_ROAD_CA_100_4km_2010.png)
 
 #### City Population
 
-TODO
+Some on-road emissions are best distributed by human population. For instance, the multi-day diurnal resting loss from LDV traffic is probably best distribution by human population, or the number of households. The idea being that these emissions are spatially distributed by where personal cars are stored, and they are not really present on highways.
+
+Older models, like DTIM, tried to use Census data to locate these emissions. But Census data is done by "traffic analysis zone" or "census tract". And in rural or mountainous regions these areas can be as big as a whole county, and this ruins the spatial allocation entirely.
+
+To improve upon this, 2012 Census information on the number of households in each city was taken for the several hundred cities in California. That information was added to an ArcGIS shapefile of the city boundaries. The result was a shapefile that represents the population in cities. This file had to be edited slightly as the legal boundaries of coastal cities extend into the ocean three miles, which is inappropriate for on-road vehicle emissions. The ocean areas were trimmed off and the shapefile was weighted by the number of households per square area to create our "City Population" spatial surrogate:
+
+![ARB City Population Surrogate](resources/ON_ROAD_CA_110_4km_2013.png)
 
 #### 30 Idle - 70 Dist
 
