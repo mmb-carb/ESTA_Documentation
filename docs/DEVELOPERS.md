@@ -140,23 +140,23 @@ Here you can see that the emissions loader instance (subclassed from `EmissionsL
 
 ESTA comes with several helpful data structures specifically designed for the emissions gridding process:
 
-* from src.emissions.emissions_table import EmissionsTable
+* `from src.emissions.emissions_table import EmissionsTable`
   * A subclass of Python's `collections.defaultdict`
   * Two levels of keys: EIC and pollutant
   * final value is emissions (a float)
-* from src.emissions.sparce_emissions import SparceEmissions
+* `from src.emissions.sparce_emissions import SparceEmissions`
   * A subclass of Python's `collections.defaultdict`
   * Two levels of keys: grid cell tuple and pollutant
   * final value is emissions (a float)
-* from src.emissions.scaled_emissions import ScaledEmissions
+* `from src.emissions.scaled_emissions import ScaledEmissions`
   * simple multi-level dictionary container
   * the keys are, in order: region, date, hr, eic
   * the values are of type `SparceEmissions`
-* from src.surrogates.spatial_surrogate import SpatialSurrogate
+* `from src.surrogates.spatial_surrogate import SpatialSurrogate`
   * A subclass of Python's `collections.defaultdict`
   * key is a grid cell location tuple
   * value is fraction of the emissions in that grid cell
-* from src.surrogates.temporal_surrogate import TemporalSurrogate
+* `from src.surrogates.temporal_surrogate import TemporalSurrogate`
   * A subclass of Python's `array.array`
   * The array has length 24
   * Elments of array sum to 1.0
@@ -167,7 +167,7 @@ This section is by no means meant to be an exhaustive study of all the algorithm
 
 ### Sparce Matricies
 
-Sparce-matrix design is important to ESTA. The term "sparce-matrix" is used here to describe the design goal of describing the spatial distribution of emissions (or spatial surrogates) using a collection of key-value pairs, where the key is a two or three-dimensional tuple describing a grid cell and the value is an emission value or fraction. This is an alternative to simply defining a ROW-by-COLUMN dimensional array to store a value in every grid cell in the modeling domain. The reason a sparce matrix approach was chosen in ESTA is that it is very common for most of the grid cells in a modeling domain to have zero values. And in most scenarios, modeling will take a lot less memory if a sparce matrix approach is used
+Sparce-matrix design is important to ESTA. The term "sparce-matrix" is used here to describe the design goal of describing the spatial distribution of emissions (or spatial surrogates) using a collection of key-value pairs, where the key might be an I/J pair describing a grid cell and the value might be an emission value. This is an alternative to simply defining a ROW-by-COLUMN dimensional array to store a value in every grid cell in the modeling domain. The sparce matrix approach is used in various place throughout ESTA because it is very common for most of the grid cells in a modeling domain to have zero values. And in most scenarios, modeling will take a lot less memory if a sparce matrix approach is used.
 
 In the section above on ESTA's native data structures, the classes `SparceEmissions` and `SpatialSurrogate` use this sparce matrix design.
 
@@ -175,9 +175,12 @@ In the section above on ESTA's native data structures, the classes `SparceEmissi
 
 The [KD Trees Algorithm](https://en.wikipedia.org/wiki/K-d_tree) is fundamental to the performance of using DTIM input files in ESTA. The KD Trees algorithm is a space-partitioning algorithm that is used in ESTA to dramatically improve the speed of locating lat/lon coordinates on the modeling grid.
 
-The problem that needs to be solved (as quickly and accurately as possible) is this: given a lat/lon pair, determine which modeling domain grid cell it is inside. The problem is that the modeling grid can have an arbitarily large number of grid cells, and searching through every grid cell is prohibitively slow. The problem is further complicated by the fact that the modeling grid can be in any arbitrary projection, which makes the mathematical calculation of containment more complicated.
+The problem that needs to be solved (as quickly and accurately as possible) is this: given a lat/lon pair, determine which modeling domain grid cell it lay inside, if any. The problem is that the modeling domain can have an arbitarily large number of grid cells, and searching through every grid cell is prohibitively slow. The problem is further complicated by the fact that the modeling grid can be in any arbitrary projection, which makes the mathematical calculation of containment more complicated.
 
 You can find an example of the usage of KD Trees in `src.surrogates.dtim4loader`:
+
+    # import KD Trees algorithm from the SciPy library
+    from scipy.spatial import cKDTree
 
     def _create_kdtrees(self):
         """ Create a KD Tree for each county / GAI / region """
@@ -199,7 +202,7 @@ You can find an example of the usage of KD Trees in `src.surrogates.dtim4loader`
             triples = list(zip(np.ravel(clat*clon), np.ravel(clat*slon), np.ravel(slat)))
             self.kdtrees[region] = cKDTree(triples)
 
-To further improve performance past just the KD Trees algorithm, ESTA uses the fact that we already know which County/GAI a road network link is in. Knowing that is helpful, becuase we can do some pre-processing, and define a subset of the entire grid that intersects this one county. Now we can restrict our grid cell search to only those grid cells which are part of this county, and do a KD Trees search on that subset.
+To further improve performance of finding a grid cell, we must notice that we already know which County/GAI a road network link is in. Knowing that is helpful becuase we can do some pre-processing and define a subset of the entire grid that intersects a particular county. Now we can restrict our grid cell search to only those grid cells which are part of that county, and do a KD Trees search on that subset.
 
 Using these two powerful tricks together yields the final method used to identify which grid cell a lat/lon point lays within:
 
@@ -222,7 +225,7 @@ Using these two powerful tricks together yields the final method used to identif
 
         return lat_min + y + 1, lon_min + x + 1
 
-The end result of this technology is that these two methods were found to be a couple thousand times faster than the naive search of the entire grid for the default on-road-with-EMFAC simulations.
+The end result is that the above technology is a couple thousand times faster than the naive search of the entire grid.
 
 
 ## Developing for ESTA
