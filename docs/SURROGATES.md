@@ -7,7 +7,7 @@ ESTA is a gridding model that takes raw emissions and applies spatial and tempor
 
 * [Spatial Surrogates](#spatial-surrogates)
   - [ARB On-Road Spatial Surrogates](#arb-on-road-spatial-surrogates)
-    + [Calvad VMT by Day-of-Week and Period](#calvad-vmt-by-day-of-week-and-period)
+    + [CalVAD VMT by Day-of-Week and Period](#calvad-vmt-by-day-of-week-and-period)
     + [Linehaul](#linehaul)
     + [City Population](#city-population)
     + [Distribution Centers](#distribution-centers)
@@ -16,8 +16,8 @@ ESTA is a gridding model that takes raw emissions and applies spatial and tempor
     + [90 Idle - 10 Dist](#90-idle---10-dist)
   - [DTIM On-Road Spatial Surrogates](#dtim-on-road-spatial-surrogates)
 * [Temporal Surrogates](#temporal-surrogates)
-  - [Calvad-Based On-Road Diurnal Temporal Surrogates](#calvad-based-on-road-diurnal-temporal-surrogates)
-  - [Calvad-Based On-Road Day-of-Week Temporal Surrogates](#calvad-based-on-road-day-of-week-temporal-surrogates)
+  - [CalVAD-Based On-Road Diurnal Temporal Surrogates](#calvad-based-on-road-diurnal-temporal-surrogates)
+  - [CalVAD-Based On-Road Day-of-Week Temporal Surrogates](#calvad-based-on-road-day-of-week-temporal-surrogates)
 
 
 ## Spatial Surrogates
@@ -27,13 +27,13 @@ Several spatial surrogates are included in ESTA. These are all examples of on-ro
 
 ### ARB On-Road Spatial Surrogates
 
-ARB uses several spatial surrogates when modeling on-road emissions. Most of these surrogates come real, measured traffic data from the [Calvad database](https://www.arb.ca.gov/research/apr/past/11-316.pdf) to distribute VMT-based on-road emissions across the modeling grid. Though for linehual trucks the [CalTrans CSTDM](http://www.dot.ca.gov/hq/tpp/offices/omsp/statewide_modeling/cstdm.html) data was used, as it was believed to be a more cohesive view of the VMT for those vehicle types.  Unlike previous on-road models, ESTA also includes a series of spatial surrogates for the non-moving emissions from on-road vehicles: starting and resting emissions.
+ARB uses several spatial surrogates when modeling on-road emissions. Most of these surrogates come real, measured traffic data from the [CalVAD database](https://www.arb.ca.gov/research/apr/past/11-316.pdf) to distribute VMT-based on-road emissions across the modeling grid. Though for linehual trucks the [CalTrans CSTDM](http://www.dot.ca.gov/hq/tpp/offices/omsp/statewide_modeling/cstdm.html) data was used, as it was believed to be a more cohesive view of the VMT for those vehicle types.  Unlike previous on-road models, ESTA also includes a series of spatial surrogates for the non-moving emissions from on-road vehicles: starting and resting emissions.
 
-#### Calvad VMT by Day-of-Week and Period 
+#### CalVAD VMT by Day-of-Week and Period 
 
-The [Calvad database](https://www.arb.ca.gov/research/apr/past/11-316.pdf) uses a variety of real-life traffic measurements to build a real picture of the traffic at the link-level across California.  Because the CalTrans database uses real, measured traffic data, it is an extremly desirable ground-truth data set.  But it does not include a lot of data about the vehicle types in traffic, as it is more expensive to collect that sort of data.  Since the number of wheel axis were recorded for each measured vehicle, it was determined that heavy-heavy-duty vehicles (HHDV) could easily be subtracted from the data set, leaving a very representative sample for light-duty vehicles (LDV) and light-medium-duty vehiles (LMDV).
+The [CalVAD database](https://www.arb.ca.gov/research/apr/past/11-316.pdf) uses a variety of real-life traffic measurements to build a real picture of the traffic at the link-level across California.  Because the CalTrans database uses real, measured traffic data, it is an extremly desirable ground-truth data set.  But it does not include a lot of data about the vehicle types in traffic, as it is more expensive to collect that sort of data.  Since the number of wheel axis were recorded for each measured vehicle, it was determined that heavy-heavy-duty vehicles (HHDV) could easily be subtracted from the data set, leaving a very representative sample for light-duty vehicles (LDV) and light-medium-duty vehiles (LMDV).
 
-Because the real-life nature of Calvad data makes the hourly variation quite messy, it was decided to use spatial surrogate for each of four daily time periods (matching those in the [CalTrans CSTDM](http://www.dot.ca.gov/hq/tpp/offices/omsp/statewide_modeling/cstdm.html) modeling):
+Because the real-life nature of CalVAD data makes the hourly variation quite messy, it was decided to use spatial surrogate for each of four daily time periods (matching those in the [CalTrans CSTDM](http://www.dot.ca.gov/hq/tpp/offices/omsp/statewide_modeling/cstdm.html) modeling):
 
 * off peak: 6 AM to 10 AM
 * midday:   10 AM to 3 PM
@@ -55,7 +55,7 @@ Thus, between the four time periods and eight days, ARB uses 32 Calvad-based VMT
 
 Here is an exmample plot of the Calvad-based VMT surrogate for Wednesdays in California in 2012, during the "AM Peak" (or "Morning Rush Hour"):
 
-![Calvad VMT for Wednesdays 2012 AM](resources/ON_ROAD_CA_309_4km_2012.png)
+![CalVAD VMT for Wednesdays 2012 AM](resources/ON_ROAD_CA_309_4km_2012.png)
 
 #### Linehaul
 
@@ -141,9 +141,9 @@ Since DTIM spatial surrogates are determine on-the-fly by ESTA for given DTIM-re
 Several temporal surrogates are included in ESTA. These are all examples of on-road temporal surrogates designed to disaggregate daily EMFAC emissions into hourly periods.
 
 
-### Calvad-Based On-Road Diurnal Temporal Surrogates
+### CalVAD-Based On-Road Diurnal Temporal Surrogates
 
-The [Calvad database](https://www.arb.ca.gov/research/apr/past/11-316.pdf) uses a variety of real-life traffic measurements to build a real picture of the traffic at the link-level across California.  Because the CalTrans database uses real, measured traffic data, it is an extremly desirable ground-truth data set.  But it does not include a lot of data about the vehicle types in traffic, as it is more expensive to collect that sort of data.  Since the number of wheel axis were recorded for each measured vehicle, it was determined that heavy-heavy-duty vehicles (HHDV) could easily be subtracted from the data set, leaving a very representative sample for light-duty vehicles (LDV) and light-medium-duty vehiles (LMDV).
+The [CalVAD database](https://www.arb.ca.gov/research/apr/past/11-316.pdf) uses a variety of real-life traffic measurements to build a real picture of the traffic at the link-level across California.  Because the CalTrans database uses real, measured traffic data, it is an extremly desirable ground-truth data set.  But it does not include a lot of data about the vehicle types in traffic, as it is more expensive to collect that sort of data.  Since the number of wheel axis were recorded for each measured vehicle, it was determined that heavy-heavy-duty vehicles (HHDV) could easily be subtracted from the data set, leaving a very representative sample for light-duty vehicles (LDV) and light-medium-duty vehiles (LMDV).
 
 Spatial surrogates were averaged from the entire 2012 data set, for six different representative days:
 
@@ -159,7 +159,7 @@ Thus, it was possible, for every county / GAI in California to generate a 24-hou
 Upon discussion with the EMFAC team it was discovered that the EMFAC model assume that school busses only run for three hours in the morning and three hours in the evening on non-holiday weekdays. To keep the two models as closely relatable as possible, a fourth vehicle type was added to these above Calvad surrogates, matching this temporal profile. This leads to the final 30 on-road diurnal surrogates found in the ESTA model, for each GAI in the state.
 
 
-### Calvad-Based On-Road Day-of-Week Temporal Surrogates
+### CalVAD-Based On-Road Day-of-Week Temporal Surrogates
 
 Similar to the diurnal surrogates described above, day-of-week surrogates were bulit from the VMT recorded in the Calvad database. The reason day-of-week surrogates are needed is because the EMFAC model only estimates on-road emissions for "average weekday" traffic. This is taken to mean the VMT used in EMFAC represents the average Tuesday, Wednesday, or Thursday. However, holidays frequently have far less traffic, and Fridays frequently have far more.
 
