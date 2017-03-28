@@ -26,6 +26,6 @@ If you are a developer, looking to understand or improve ESTA, please see:
 
 ## Open-Source Licence
 
-ESTA was developed by the California State Government, by the APQSD branch of the [ARB](http://www.arb.ca.gov/homepage.htm) at the [California EPA](http://www.calepa.ca.gov/).  As this was the product of a publically-funded governement agency, it is part of the public domain. It is openly licensed under the GNU GPLv3 license, and free for all to use.
+ESTA was developed by the California State Government, by the Air Quality Planning and Science Division of the [ARB](http://www.arb.ca.gov/homepage.htm) at the [California EPA](http://www.calepa.ca.gov/).  As this was the product of a publically-funded government agency, it is part of the public domain. It is openly licensed under the GNU GPLv3 license, and free for all to use.
 
 * [GNU GPLv3 License](LICENSE)
