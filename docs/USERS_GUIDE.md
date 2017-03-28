@@ -34,7 +34,7 @@ The default examples included with ESTA are designed to be fast, and should fini
 
 ## Config Files
 
-The configuration (config) files used in ESTA are divided into sections. This makes the config files easier to read and keeps them organized. But there are no required fields in any section; the config files are very general and will change greatly dependent upon your run. That being said, there are a few general principles that can help you understand how to run ESTA.
+The configuration (config) files used in ESTA are divided into sections. This makes the config files easier to read and keeps them organized. There are no required fields in any section; the config files are very general and will change greatly dependent upon your run. That being said, there are a few general principles that can help you understand how to run ESTA.
 
 ### General Config Ideas
 
@@ -43,16 +43,16 @@ The config files used in ESTA are a common format, defined by the Python standar
 There are a few features of the config files to note:
 
 * **Section headers** are defined inside square brackets, e.g. `[Dates]`.
-* **Config variables** must be on their own line, following a section header line. And the value of the config variable comes after a colon and a space.
+* **Config variables** must be on their own line, following a section header line, and the value of the config variable comes after a colon and a space.
  * **Lists are spaced-separated.** You could certainly do this another way, but in ESTA, we separate list items with spaces.
 * **Comments** are lines where the first character in the line is the pound/hashtag symbol (`#`).
 
 ### Choosing a Class
 
-In order for ESTA to be useful, it has to be easy for the user to design their own run. Each step in the ESTA model chain has various options. For instance, if you are reading in some kind of emissions file, there will have to be a different Python `class` designed to read that file type in ESTA. In order to select that class, all you have to do is list its name in the config file. For instance, in the default config file "example_onroad_ca_4km_dtim_pmeds.ini":
+In order for ESTA to be useful, it has to be easy for the user to design their own run. Each step in the ESTA model chain has various options. For instance, if you are reading in some kind of emissions file, there will have to be a different Python [class](https://docs.python.org/2/tutorial/classes.html) designed to read that file type in ESTA. In order to select that class, all you have to do is list its name in the config file. For instance, in the default config file "example_onroad_ca_4km_dtim_pmeds.ini":
 
     [Scaling]
-    scalor: EmfacSmokeScaler
+    scalar: EmfacSmokeScaler
 
 If you look in the source code, you will find that class:
 
@@ -67,7 +67,7 @@ If you list more than one class, both will be run in the order you listed them. 
 
 ## Config File Sections
 
-There are five major steps in the emissions inventory gridding process, each of which have a dedicated section in the ESTA config files:
+There are five major steps in the emissions inventory gridding process, each of which has a dedicated section in the ESTA config files:
 
 1. **Emissions** - where the emissions files are and how to read them
 2. **Surrogates** - where the spatial and temporal surrogate files are and how to read them
@@ -87,9 +87,9 @@ Next, the nine sections above will be discussed in some detail, using examples f
 
 ### Dates
 
-Most emissions inventories are built on a daily basis, even if they have hourly values. As such, this section allows the user to set the start and end dates for their run (both inclusive). Since these fields have to be passed as strings, there is also a `format` variable. The format must be something recognizable by the Python standard `datetime` module. Finally, all three config files also have a `base_year` variable, as emissions modeling frequently makes a distinction between base year and model year.
+Most emissions inventories are estimated on a daily basis, even if they have hourly values. As such, this section allows the user to set the start and end dates for their run (both inclusive). Since these fields have to be passed as strings, there is also a `format` variable. The format must be something recognizable by the Python standard `datetime` module. Finally, all three config files also have a `base_year` variable, as emissions modeling frequently makes a distinction between base year and model year.
 
-All of the provided example config files are set up for the same Wednesday in the Summer of 2012:
+All of the provided example config files are set up for the same Wednesday in the summer of 2012:
 
     [Dates]
     format: %Y-%m-%d
@@ -106,13 +106,13 @@ A typical example might be:
     regions: 1..69
     region_info: input/defaults/california/gai_info.py
 
-The purpose of this config section is to allow users to define which counties, states, or other regions they are modeling.  And supply extra information about the region definitions.
+The purpose of this config section is to allow users to define which counties, states, or other regions they are modeling, and supply extra information about the region definitions.
 
 For instance, if you wanted to select all 69 GAIs (Geographic Area of Interest) in California, you would use the `..` notation to define a range:
 
     regions: 1..69
 
-Of if you wanted to just select one region (say, the Santa Barbara GAI) you could change the available list of regions:
+Or if you wanted to just select one region (say, the Santa Barbara GAI) you could change the available list of regions:
 
     regions: 57
 
@@ -127,7 +127,7 @@ Example Location:
 
     input/defaults/california/gai_info.py
 
-The `gai_info.py` file is an example "region_info" file in the "Regions" section of the config file.  This file contains a Python dictionary mapping each region code to a dictionary of attributes needed for the run.  Depending on your run configuration, you may not need *all* the information in this file.  And if you are developing your own ESTA modules you may want to put more information in this file, which is easily extensible.
+The `gai_info.py` file is an example "region_info" file in the "Regions" section of the config file.  This file contains a Python dictionary mapping each region code to a dictionary of attributes needed for the run.  Depending on your run configuration, you may not need *all* the information in this file; and if you are developing your own ESTA modules you may want to put more information in this file, which is easily extensible.
 
 The `gai_info.py` file has a dictionary of information for each GAI (because the example runs are by GAI). Each GAI has the following information:
 
@@ -139,7 +139,7 @@ The `gai_info.py` file has a dictionary of information for each GAI (because the
 
 ### GridInfo
 
-In most gridded inventory processing the number of rows, columns, and possibly layers will need to be defined. This section fills the need for those constant vaues.
+In most gridded inventory processing the number of rows, columns, and possibly layers will need to be defined. This section fills the need for those constant values.
 
     [GridInfo]
     rows: 291
@@ -156,7 +156,7 @@ Example Locations:
     input/defaults/domains/GRIDCRO2D.California_12km_97x107
     input/defaults/domains/GRIDCRO2D.SCAQMD_4km_102x156
 
-These GRIDCRO2D are the same files used in CMAQ to define the lat/lon corners of each modeling grid cell. This file type was chosen as it is already a community standard, and anyone wanting to run CMAQ will already have this file for their modeling domain.  For a full description of the file, see the [official CMAQ documentation][CMAQ].  But in short, it is a Classic-type NetCDF binary file, with two variables that are relevant to ESTA and completely define the modeling grid:
+These GRIDCRO2D are the same files used in CMAQ to define the lat/lon corners of each modeling grid cell. This file type was chosen as it is already a community standard, and anyone wanting to run CMAQ will already have this file for their modeling domain.  For a full description of the file, see the [official CMAQ documentation][CMAQ].  In short, it is a Classic-type NetCDF binary file, with two variables that are relevant to ESTA and completely define the modeling grid:
 
     float LAT(TSTEP, LAY, ROW, COL) ;
         LAT:long_name = "LAT             " ;
@@ -209,7 +209,7 @@ Let us go through these variables in more detail.
 
 The `spatial_loaders` variable is a space-separated list of class names used to generate spatial surrogates. Likewise, `temporal_loaders` is a list of class names to generate spatial surrogates.  The `spatial_directories` and `temporal_directories` are where the input files for the surrogates is found. The length of the `spatial_loaders` list and the length of the `spatial_directories` must be the same, and likewise for the temporal surrogates.
 
-The remaining four variables in the default config files are specific to on-road processing with EMFAC. The `calvad_dow` file is a simple CSV relating the total emissions for different vehicle classes and counties by day-of-week, relative to the typical weekday emissions output by EMFAC. The `calvad_diurnal` is a similar file for the diurnal patterns of various vehicle classes. Both of these files were taken from the CALVAD vehicle activity database.
+The remaining four variables in the default config files are specific to on-road processing with EMFAC. The `calvad_dow` file is a simple CSV relating the total emissions for different vehicle classes and counties by day-of-week, relative to the typical weekday emissions output by EMFAC. The `calvad_diurnal` is a similar file for the diurnal patterns of various vehicle classes. Both of these files were taken from the [CalVAD](https://www.arb.ca.gov/research/apr/past/11-316.pdf) vehicle activity database.
 
 Finally, when `Smoke4Dtim4Loader` is given as a class for the `spatial_loaders` option, a list of SMOKE-ready spatial surrogates, `smoke4_surrogates`, needs to be provided along with the `eic_info` label to map EICs (Emissions Inventory Codes) to each of these surrogates.
 
@@ -233,7 +233,8 @@ In particular, each EIC maps to a tuple with three elements:
 2. Spatial Surrogate Code: A string representing which SMOKE v4 spatial surrogate that is used to cover this EIC.
 3. Scaling Fraction: This fraction is used to scale the emissions from this EIC. If the fraction is 1.0, the emissions are left unchanged. If the fraction is 0.5, you reduce the emissions by 50%. If the fraction is 3, you triple the emissions.
 
-The first one is used for the default DTIM case, where the second column only points to "vmt" or "trips". But the second file is part of the Santa Barbara example, and the second tuple column points to SMOKE spatial surrogates for spatial disaggregation.
+The first one is used for the default DTIM case, where the second column only points to "vmt" or "trips". The second file is part of the Santa Barbara example, and the second tuple column points to SMOKE spatial surrogates for spatial disaggregation.
+
 
 #### region_boxes
 
@@ -245,7 +246,7 @@ Example Locations:
 
 The Grid Boxes files define the I/J (grid cell) bounding boxes of each region in the modeling domain.  For instance, included for example with ESTA are Grid Boxes files that define the extent of each GAI in three different modeling grids: the California 4km grid, the California 12km grid, and the South Coast AQMD 4km modeling grid.
 
-These Grid Boxes files are used to when ESTA takes an lat/lon coordinate and tries to find which I/J grid cell it is in.  This process is very slow when searching the entire modeling domain. But it can be sped up significantly if you already know what GAI the lat/lon point is in: there are fewer I/J grid cells to test.
+These Grid Boxes files are used when ESTA takes a lat/lon coordinate and tries to find which I/J grid cell it is in.  This process is very slow when searching the entire modeling domain, but it can be sped up significantly if you already know which GAI the lat/lon point is in: there are fewer I/J grid cells to test.
 
 These files are simple Python dictionaries that provide the grid cell bounding box for a given county/GAI, e.g.:
 
@@ -263,7 +264,7 @@ If your domain is very small, or you want to quickly test a new domain, you coul
      ...
     }
 
-But there is a better way. Whether you are working with the counties, GAIs, states, or whatever. Chances are you already know the bounding boxes of your regions in lat/lon. Or you can at least come up with some. If so, there is a script you can use to generate the regional boxes file. It is in the default EMFAC input directory next to the GRIDCRO2D input files:
+But there is a better way, depending on whether you are working with the counties, GAIs, states, or whatever. Chances are you already know the bounding boxes of your regions in lat/lon or you can at least come up with some. If so, there is a script you can use to generate the regional boxes file. It is in the default EMFAC input directory next to the GRIDCRO2D input files:
 
     ESTA/input/defaults/domains/preprocess_grid_boxes.py
 
@@ -272,16 +273,16 @@ This script is easy to use. For example, if you wanted to generate the grid doma
     cd input/defaults/domains/
     python preprocess_grid_boxes.py -gridcro2d GRIDCRO2D.California_12km_97x107 -rows 97 -cols 107  -regions california_counties_lat_lon_bounding_boxes.csv
 
-And this would print a nicely-formatted dictionary (JSON/Python) to the screen, which you can copy to a file called `county_boxes_ca_12km.py`.
+This would print a nicely-formatted dictionary (JSON/Python) to the screen, which you can copy to a file called `county_boxes_ca_12km.py`.
 
 
-#### Calvad Data
+#### CalVAD Data
 
-ESTA uses temporal profiles taken from real-world traffic measurements, aggregated by the Calvad database. In particular, ESTA includes two sets of on-road temporal profiles taken from Calvad: one for diurnal profiles and one for day-of-week profiles.
+ESTA uses temporal profiles taken from real-world traffic measurements, aggregated by the CalVAD database. In particular, ESTA includes two sets of on-road temporal profiles taken from CalVAD: one for diurnal profiles and one for day-of-week profiles.
 
-As Calvad is derived from real-world data, it only has three data types that are relevant to modeling using EMFAC2014: Light-Duty, Medium-Duty, and Heavy-Duty.  In addition, temporal profiles were added for one special case scenario: School Busses, whose driving patterns are quite regular.
+As CalVAD is derived from real-world data, it only has three data types that are relevant to modeling using EMFAC2014: Light-Duty, Medium-Duty, and Heavy-Duty.  In addition, temporal profiles were added for one special case scenario: School Busses, whose driving patterns are quite regular.
 
-The Calvad database was used to generate temporal profiles for 6 different weekday types: Sunday, Monday, Tuesday-through-Thursday, Friday, Saturday, and Holidays.
+The CalVAD database was used to generate temporal profiles for 6 different weekday types: Sunday, Monday, Tuesday-through-Thursday, Friday, Saturday, and Holidays. Tuesday through Thursday are considered to be peak days in transportation modeling with generally the same amount of traffic each day.
 
 
 #### calvad_dow
@@ -290,7 +291,7 @@ Example Location:
 
     input/defaults/surrogates/temporal/calvad_gai_dow_factors_2012.csv
 
-The Calvad day-of-week profiles are given by GAI, day-of-week, and the four Calvad vehicle types.  The CSV file format used is:
+The CalVAD day-of-week profiles are given by GAI, day-of-week, and the four CalVAD vehicle types.  The CSV file format used is:
 
     REGION,Day,DOW,LD,LM,HH,SBUS
     1,1,sun,1.200535,0.823616,0.418047,0
@@ -299,7 +300,7 @@ The Calvad day-of-week profiles are given by GAI, day-of-week, and the four Calv
 
 Note that, by definition, we do not adjust the emissions from EMFAC for Tuesday-through-Thursday days.  This is because EMFAC is designed to output emissions for a typical week day. The purpose of the day-of-week emissions adjustments is to reflect the different traffic activity for other days of the week like Monday, Friday, Weekend and Holidays.
 
-As long as the developer keeps this file format the same, they can easily interchange this data with their own temporal profiles. For instance, if they have better data in their own local region for a particular vehicle type.
+As long as the developer keeps this file format the same, they can easily interchange this data with their own temporal profiles. For instance, a developer may have better data in their own local region for a particular vehicle type.
 
 
 #### calvad_diurnal
@@ -308,7 +309,7 @@ Example Location:
 
     input/defaults/surrogates/temporal/calvad_gai_diurnal_factors_2012.csv
 
-The Calvad diurnal profiles are given by GAI, day-of-week, and the four Calvad vehicle types.  The CSV file format used is:
+The CalVAD diurnal profiles are given by GAI, day-of-week, and the four CalVAD vehicle types.  The CSV file format used is:
 
     REGION,DOW,HR,LD,LM,HH,SBUS
     1,sun,0,0.010251,0.014314,0.031505,0
@@ -342,7 +343,7 @@ This section is used to define the location of the raw emission input files, and
                        Emfac2014HdDslCsvLoader
     time_units: daily seasonally
 
-In the case of the default config files, there are two types of EMFAC2014 input files being read: HDV-diesel emissions are read seasonally, and all non-HDV-diesel emissions are read daily. This means there are two different classes used to read the two different file types (listed under `emissions_loaders`) and two different input directories (list under `emissions_directories`). There is also a spare variable, `time_units`, used to explicitly identify the time-resolution of each EMFAC input file.
+In the case of the default config files, there are two types of EMFAC2014 input files being read: HDV-diesel emissions are read seasonally, but all non-HDV-diesel emissions are read daily. This means there are two different classes used to read the two different file types (listed under `emissions_loaders`) and two different input directories (list under `emissions_directories`). There is also a spare variable, `time_units`, used to explicitly identify the time-resolution of each EMFAC input file.
 
 #### On-Road HDV-Diesel Emissions Files
 
@@ -350,7 +351,7 @@ Example Locations:
 
     input/examples/onroad_emfac2014_santa_barbara/emfac2014_2012/hdv/hd_summer/emfac_hd_summer.csv_all
 
-One of the primary inputs to ESTA is emissions.  In the case of on-road modeling, one of the primary inputs is Heavy-Duty (HD) diesel emissions.  As it happens, these are provided to ESTA in the form of season-average emissions because the daily variation of meteorology does not greatly effect the emissions from HD diesel vehicles.
+One of the primary inputs to ESTA is emissions.  In the case of on-road modeling, one of the primary inputs is Heavy-Duty (HD) diesel emissions.  As it happens, these are provided to ESTA in the form of season-average emissions because the daily variation of meteorology does not greatly affect the emissions from HD diesel vehicles.
 
 These input files are a simple (headerless) CSV that look like:
 
@@ -402,10 +403,10 @@ This file looks much like the HD-diesel file, but has a column header:
 The scaling section defines the classes used to scale the raw inventories using the calculated spatial and temporal surrogates.
 
     [Scaling]
-    scalor: EmfacSmokeScaler
+    scalar: EmfacSmokeScaler
     nh3_inventory: input/defaults/emfac2014/nh3/rf2082_b_2012_20160212_onroadnh3.csv
 
-The `scalor` class listed is the heart of your ESTA run, performing an arbitrary amount of math to apply the surrgates to your emissions.
+The `scalar` class listed is the heart of your ESTA run, performing an arbitrary amount of math to apply the surrogates to your emissions.
 
 #### nh3_inventory
 
@@ -413,7 +414,7 @@ Example Location:
 
     input/defaults/emfac2014/nh3/rf2082_b_2012_20160212_onroadnh3.csv
 
-The NH3/CO inventory CSV file contains the NH3 and CO emissions from all on-road EICs, for all regions in California. This file is necessary because EMFAC2014 does not output NH3 emissions from on-road sources, but the NH3 is important in photochemical modeling.  This file is used ad-hoc to calculate NH3 emissions from the CO emissions given by EMFAC. (<We should write NH3 as provided instead of estimating it from CO>)
+The NH3/CO inventory CSV file contains the NH3 and CO emissions from all on-road EICs, for all regions in California. This file is necessary because EMFAC2014 does not output NH3 emissions from on-road sources, but the NH3 is important in particulate matter modeling.  This file is used ad-hoc to calculate NH3 emissions from the CO emissions given by EMFAC.
 
 The file format is used elsewhere at CARB, so several of the columns are unused:
 
@@ -445,9 +446,9 @@ The output section defines how the final output files from ESTA are created. In 
 
 The primary variables in this section are: `writers` which lists the output-creating classes, and `directories` which lists where you want the output files. All the rest of the variables in the default config files are specific to the EMFAC on-road process.
 
-The `by_region` variable can be set to `True` if you want each county to have it's own output file, or `False` if you want all counties in the same file. The `inventory_version` variable is just a string used to uniquely identify your model run.
+The `by_region` variable can be set to `True` if you want each county to have its own output file or `False` if you want all counties in the same file. The `inventory_version` variable is just a string used to uniquely identify your model run.
 
-The `eic_precision` option is used to define how detailed you want to output your emissions. For instance, the outputs can be written using full EIC-14 categories by setting this option to `14`. But if the outputs are written using only EIC-3 (`eic_precision: 3`), the output files might be about 100 times smaller.
+The `eic_precision` option is used to define how detailed you want to output your emissions. For instance, the outputs can be written using full 14-digit EIC categories by setting this option to `14`. However, if the outputs are written using only the first three digits of the EIC, commonly referred to as EIC-3 (`eic_precision: 3`), the output files might be 100 times smaller.
 
 By contrast, in the input file example_onroad_ca_4km_dtim_ncf.ini you will see something like:
 
@@ -463,7 +464,7 @@ By contrast, in the input file example_onroad_ca_4km_dtim_ncf.ini you will see s
 
 This file generates output files that are in the CMAQ-ready NetCDF format. Notice that since NetCDF files do not contain EIC information the `eic_precision` variable is missing.
 
-The four new variables here all have to do with speciating EMFAC emissions. It turns out tha EMFAC only outputs criteria pollutants, but CMAQ needs speciated emissions. To help make this process transparent, we have decided to use the `GSPRO` and `GSREF` file formats from SMOKE as our input files for speciation. Please note that this config process allows for two different `GSREF` files, one for Summer and one for Winter. There will be no problem if you decide to list the same `GSREF` file twice for these two seasons. Finally, there is one `weight_file` variable that points to a SMOKE-formatted file that lists the molecular weights of each model species.
+The four new variables here all have to do with speciating EMFAC emissions.The EMFAC model only outputs criteria pollutants, but CMAQ needs speciated emissions. To help make this process transparent, we have decided to use the `GSPRO` and `GSREF` file formats from SMOKE as our input files for speciation. Please note that this config process allows for two different `GSREF` files, one for Summer and one for Winter. There will be no problem if you decide to list the same `GSREF` file twice for these two seasons. Finally, there is one `weight_file` variable that points to a SMOKE-formatted file that lists the molecular weights of each model species.
 
 
 #### GSPRO / GSREF
@@ -485,12 +486,12 @@ As an example of how ARB runs ESTA, the config file example_onroad_ca_4km_arb_pm
 
 Defining which test classes are run is handled by the `tests` variable, and the test results can be written to the output directory defined above. The `dates` variable gives you the option of spot-checking just certain dates in your time range.
 
-Please note that there are tests available in ESTA for PMEDS and NetCDF output files respectively. Because the NetCDF format does not contain EIC information, there are fewer testing options than there are for NetCDF files.
+Please note that there are tests available in ESTA for PMEDS and NetCDF output files respectively. Because the NetCDF format does not contain EIC information, there are fewer testing options than there are for PMEDS files.
 
 
 ### Misc
 
-The miscellaneous section is just what is sounds like. In the case of the default config files, the miscellaneous section is used for input files that are shared between different processing steps.
+The miscellaneous section is just what it sounds like. In the case of the default config files, the miscellaneous section is used for input files that are shared between different processing steps.
 
     [Misc]
     vtp2eic: input/defaults/emfac2014/vtp2eic.py
@@ -506,7 +507,7 @@ The `vtp2eic.py` file is used to map the EMFAC outputs to the EIC categories use
 
     LDA, CAT, RUNEX
 
-This is meant to represent "Light Duty Auto", "Catalytic Converter", and "Running Exhaust".  That is a great description, but CARB represents that using the EIC 71073411000000.  The `vtp2eic.py` file contains a singly Python dictionary mapping these EMFAC codes to EIC, for example:
+This is meant to represent "Light Duty Auto", "Catalytic Converter", and "Running Exhaust".  That is a great description, but CARB represents that using the EIC 71073411000000.  The `vtp2eic.py` file contains a single Python dictionary mapping these EMFAC codes to EIC, for example:
 
     {('All Other Buses', 'DSL', 'IDLEX'): 77976512100000,
      ('All Other Buses', 'DSL', 'PMBW'): 77976854100000,
