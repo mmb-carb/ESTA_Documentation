@@ -1,6 +1,6 @@
 # ESTA Developers Guide
 
-ESTA is a Python-based model. It is designed as a stand-alone program, not as an installable Python library. The purpose of this document is to aquaint a potential developer with the ESTA code base so they can add new components and make updates to the model. An understanding of object-oriented programming in Python is assumed.
+ESTA is a Python-based model. It is designed as a stand-alone program, not as an installable Python library. The purpose of this document is to aquaint a potential developer with the ESTA code base so they can add new components and make updates to the model. This guide assumes an understanding of object-oriented programming in Python.
 
 ## Table of Contents
 
@@ -19,7 +19,7 @@ ESTA is a Python-based model. It is designed as a stand-alone program, not as an
 
 ## Installation
 
-ESTA is designed to run on any major operating system using Python 2.7.x.  It requires a number of potential third-party libraries, depending on what you want to do.  For a list of these dependencies and their versions, the ESTA main folder includes a Python-standard `requirements.txt` file.
+ESTA is designed to run on any major operating system using Python 2.7.x.  It requires a number of potential third-party libraries, depending on which modules you want to run.  For a list of these dependencies and their versions, the ESTA main folder includes a Python-standard `requirements.txt` file.
 
 ## Design Goals
 
@@ -171,13 +171,13 @@ Sparce-matrix design is important to ESTA. The term "sparce-matrix" is used here
 
 In the section above on ESTA's native data structures, the classes `SparceEmissions` and `SpatialSurrogate` use this sparce matrix design.
 
-### KD Trees  (<Did you keep this portion of the CODE?. I tought we moved away from locating lat/lon/ITN>)
+### KD Trees
 
-The [KD Trees Algorithm](https://en.wikipedia.org/wiki/K-d_tree) is fundamental to the performance of the on-road modeling in ESTA. The KD Trees algorithm is a space-partitioning algorithm that is used in ESTA to dramatically improve the speed of locating lat/lon coordinates on the modeling grid.
+The [KD Trees Algorithm](https://en.wikipedia.org/wiki/K-d_tree) is fundamental to the performance of using DTIM input files in ESTA. The KD Trees algorithm is a space-partitioning algorithm that is used in ESTA to dramatically improve the speed of locating lat/lon coordinates on the modeling grid.
 
-The problem that needs to be solved (as quickly and accurately as possible) is this: given a lat/lon pair, determine which grid cell it is inside on the modeling domain. The problem is that the modeling grid can be arbitarily large, and searching through every grid cell is prohibitively slow. And the problem is further complicated by the fact that the modeling grid can be in any arbitrary projection.
+The problem that needs to be solved (as quickly and accurately as possible) is this: given a lat/lon pair, determine which modeling domain grid cell it is inside. The problem is that the modeling grid can have an arbitarily large number of grid cells, and searching through every grid cell is prohibitively slow. The problem is further complicated by the fact that the modeling grid can be in any arbitrary projection, which makes the mathematical calculation of containment more complicated.
 
-You can find an example of the usage of KD Trees in `src.surrogates.dtim4loader`. To further help speed up the grid cell identification, a sub-grid is isolated for each region (in this case county) on the grid and a KD Tree is created for that region:
+You can find an example of the usage of KD Trees in `src.surrogates.dtim4loader`:
 
     def _create_kdtrees(self):
         """ Create a KD Tree for each county / GAI / region """
@@ -199,7 +199,9 @@ You can find an example of the usage of KD Trees in `src.surrogates.dtim4loader`
             triples = list(zip(np.ravel(clat*clon), np.ravel(clat*slon), np.ravel(slat)))
             self.kdtrees[region] = cKDTree(triples)
 
-This only works because we happen to know the region the lat/lon pair belongs in before we try to locate it on the grid:
+To further improve performance past just the KD Trees algorithm, ESTA uses the fact that we already know which County/GAI a road network link is in. Knowing that is helpful, becuase we can do some pre-processing, and define a subset of the entire grid that intersects this one county. Now we can restrict our grid cell search to only those grid cells which are part of this county, and do a KD Trees search on that subset.
+
+Using these two powerful tricks together yields the final method used to identify which grid cell a lat/lon point lays within:
 
     def _find_grid_cell(self, p, region):
         ''' Find the grid cell location of a single point in our 3D grid.
