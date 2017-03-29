@@ -154,7 +154,7 @@ Spatial surrogates were averaged from the entire 2012 data set, for six differen
 * Sunday
 * Holiday
 
-Thus, it was possible, for every county / GAI in California to generate a 24-hour diurnal profile for three different vehicle categories and six different representative days of the week; for a total of 18 different temporal surrogates.
+Thus, it was possible, for every county / GAI in California to generate a diurnal profile for three different vehicle categories and six different representative days of the week; for a total of 18 different temporal surrogates.
 
 Upon discussion with the EMFAC team it was discovered that the EMFAC model assume that school busses only run for three hours in the morning and three hours in the evening on non-holiday weekdays. To keep the two models consistent, a fourth vehicle type was added to the Calvad surrogates, matching the assumptions in EMFAC.
 
