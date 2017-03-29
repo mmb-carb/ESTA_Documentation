@@ -156,7 +156,7 @@ Example Locations:
     input/defaults/domains/GRIDCRO2D.California_12km_97x107
     input/defaults/domains/GRIDCRO2D.SCAQMD_4km_102x156
 
-These GRIDCRO2D are the same files used in CMAQ to define the lat/lon corners of each modeling grid cell. This file type was chosen as it is already a community standard, and anyone wanting to run CMAQ will already have this file for their modeling domain.  For a full description of the file, see the [official CMAQ documentation][CMAQ].  In short, it is a Classic-type NetCDF binary file, with two variables that are relevant to ESTA and completely define the modeling grid:
+These GRIDCRO2D are the same files used in CMAQ to define the lat/lon corners of each modeling grid cell. This file type was chosen as it is already a community standard, and anyone wanting to run CMAQ will already have this file for their modeling domain.  For a full description of the file, see the [official CMAQ documentation](https://www.cmascenter.org/help/documentation.cfm).  In short, it is a Classic-type NetCDF binary file, with two variables that are relevant to ESTA and completely define the modeling grid:
 
     float LAT(TSTEP, LAY, ROW, COL) ;
         LAT:long_name = "LAT             " ;
@@ -400,7 +400,7 @@ This file looks much like the HD-diesel file, but has a column header:
 
 ### Scaling
 
-The scaling section defines the classes used to scale the raw inventories using the calculated spatial and temporal surrogates.
+The scaling section defines the classes used to scale the raw inventories using the spatial and temporal surrogates.
 
     [Scaling]
     scalar: EmfacSmokeScaler
@@ -518,8 +518,6 @@ This is meant to represent "Light Duty Auto", "Catalytic Converter", and "Runnin
 [Back to Main Readme](../README.md)
 
 
-[CMAQ]: http://www.airqualitymodeling.org/cmaqwiki/index.php?title=CMAQ_version_5.0_%28February_2010_release%29_OGD
 [GSPRO]: https://www.cmascenter.org/smoke/documentation/2.7/html/ch08s05s02.html
 [GSREF]: https://www.cmascenter.org/smoke/documentation/2.7/html/ch08s05s04.html
 [SMOKE]: https://www.cmascenter.org/smoke/documentation/2.7/html/ch08s04.html
-
