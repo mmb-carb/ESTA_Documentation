@@ -128,9 +128,9 @@ There is some discussion among ARB staff of whether 90/10 or 95/5 is a better sp
 
 ### DTIM On-Road Spatial Surrogates
 
-The DTIM mode in ESTA allows ESTA to read in DTIM-ready Link and TAZ input files. These are, in turn, used to spatially distribute emissions like DTIM does: via either VMT for moving emissions or by TAZ-centroids for stationary emissions. Statationary emissions, of course, being starting emissions and the various resting loses. The only aspect of DTIM's spatially disaggregation that ESTA does not duplicate is the slight change in emissions in individual grid cells based on grid-cell variation of meteorology. ESTA accounts for this meteorology by running EMFAC using county-wide meteorology that has been VMT-averaged.
+The DTIM mode in ESTA allows ESTA to read in DTIM-ready Link and TAZ input files. These are, in turn, used to spatially distribute emissions like DTIM does: via either VMT for moving emissions or by TAZ-centroids for non-moving emissions. Non-moving emissions are being starting emissions and the various resting losses. The only aspect of DTIM's spatial disaggregation that ESTA does not duplicate is the slight change in emissions in individual grid cells based on grid-cell variation of meteorology. ESTA accounts for this meteorology by running EMFAC using county-wide meteorology that has been VMT-averaged.
 
-Since DTIM spatial surrogates are determine on-the-fly by ESTA for given DTIM-ready Link or TAZ files, there are no example surrogates included in ESTA. Though there are example Link and TAZ files included at:
+Since DTIM spatial surrogates are determine on-the-fly by ESTA for given DTIM-ready Link or TAZ files, there are no example surrogates included in ESTA. There are example Link and TAZ files included at:
 
     input/examples/onroad_emfac2014_santa_barbara/dtim4_gai_2012/057/dtim_link_057_tuth_17.dat
     input/examples/onroad_emfac2014_santa_barbara/dtim4_gai_2012/057/dtim_taz_057_tuth_17.dat
@@ -143,7 +143,7 @@ Several temporal surrogates are included in ESTA. These are all examples of on-r
 
 ### CalVAD-Based On-Road Diurnal Temporal Surrogates
 
-The [CalVAD database](https://www.arb.ca.gov/research/apr/past/11-316.pdf) uses a variety of real-life traffic measurements to build a real picture of the traffic at the link-level across California.  Because the CalTrans database uses real, measured traffic data, it is an extremly desirable ground-truth data set.  But it does not include a lot of data about the vehicle types in traffic, as it is more expensive to collect that sort of data.  Since the number of wheel axis were recorded for each measured vehicle, it was determined that heavy-heavy-duty vehicles (HHDV) could easily be subtracted from the data set, leaving a very representative sample for light-duty vehicles (LDV) and light-medium-duty vehiles (LMDV).
+The [CalVAD database](https://www.arb.ca.gov/research/apr/past/11-316.pdf) uses a variety of real-life traffic measurements to build a real picture of the traffic at the link-level across California.  Because the CalTrans database uses real, measured traffic data, it is an extremely desirable ground-truth data set.  However, it does not include a lot of data about the vehicle types in traffic, as it is more expensive to collect that sort of data.  Since the number of wheel axes were recorded for each measured vehicle, it was determined that heavy-heavy-duty vehicles (HHDV) could easily be subtracted from the data set, leaving a very representative sample for light-duty vehicles (LDV) and light-medium-duty vehicles (LMDV).
 
 Spatial surrogates were averaged from the entire 2012 data set, for six different representative days:
 
@@ -156,13 +156,13 @@ Spatial surrogates were averaged from the entire 2012 data set, for six differen
 
 Thus, it was possible, for every county / GAI in California to generate a 24-hour diurnal profile for three different vehicle categories and six different representative days of the week; for a total of 18 different temporal surrogates.
 
-Upon discussion with the EMFAC team it was discovered that the EMFAC model assume that school busses only run for three hours in the morning and three hours in the evening on non-holiday weekdays. To keep the two models as closely relatable as possible, a fourth vehicle type was added to these above Calvad surrogates, matching this temporal profile. This leads to the final 30 on-road diurnal surrogates found in the ESTA model, for each GAI in the state.
+Upon discussion with the EMFAC team it was discovered that the EMFAC model assume that school busses only run for three hours in the morning and three hours in the evening on non-holiday weekdays. To keep the two models consistent, a fourth vehicle type was added to the Calvad surrogates, matching the assumptions in EMFAC.
 
 
 ### CalVAD-Based On-Road Day-of-Week Temporal Surrogates
 
-Similar to the diurnal surrogates described above, day-of-week surrogates were bulit from the VMT recorded in the Calvad database. The reason day-of-week surrogates are needed is because the EMFAC model only estimates on-road emissions for "average weekday" traffic. This is taken to mean the VMT used in EMFAC represents the average Tuesday, Wednesday, or Thursday. However, holidays frequently have far less traffic, and Fridays frequently have far more.
+Similar to the diurnal surrogates described above, day-of-week surrogates were built from the VMT recorded in the Calvad database. The reason day-of-week surrogates are needed is because the EMFAC model only estimates on-road emissions for "average weekday" traffic. The VMT used in EMFAC represents the average Tuesday, Wednesday, or Thursday, which is consistent with the use in transporation models. However, holidays and weekends frequently have far less traffic, and Fridays frequently have far more.
 
-To accurately model on-road emissions, each Calvad vehicle class VMT was summed for all road network links in each GAI, by day-of-week. Then fractions were made for each day-of-the-week relative to the EMFAC representative Tuesday-through-Thursday. These fractions are then used to manual raise or lower the on-road emissions calculated by EMFAC to better match day-of-week traffic patterns.
+To accurately model on-road emissions, the VMT from each Calvad vehicle class was summed for all road network links in each GAI, by day-of-week. Then fractions were made for each day-of-the-week relative to the EMFAC representative Tuesday-through-Thursday. These fractions are then used to manually raise or lower the on-road emissions calculated by EMFAC to better match day-of-week traffic patterns.
 
-Again, a minor change was made so that the school bus vehicle category has zero emissions on weekends and holidays.
+Additionally, a minor change was made so that the school bus vehicle category has zero emissions on weekends and holidays.
