@@ -98,7 +98,7 @@ This surrogate is not used directly as an ESTA default, but rather as part of co
 
 The data for this surrogate came from two sources:
 
-1. The US EPA's "idling locations" dataset. This was retrieved from their FTP servers in early April, 2016 as a shapefile.
+1. The US EPA's "idling locations" dataset. This was retrieved from their [FTP servers](ftp://ftp.epa.gov/EmisInventory/2011v6/v2platform/spatial_surrogates/NewShapeFiles_Surrogatesv6.2_Platform.zip) in early April, 2016 as a shapefile.
 2. The CalTrans "rest stops" dataset. This was retrieved as a shapefile from [their website](http://www.dot.ca.gov/hq/tsip/gis/datalibrary/Metadata/RestArea.html).
 
 Many duplicate locations were found between the two datasets, and were removed. The results were combined into a shapefile. To weight which locations had more traffic than others, a detailed, manual hand-count was undertaken on Google Earth. The number of parking spots available, big enough for a single linehaul truck with trailer, were counted for each and every location from each of the above two data sets. The process was laborious, but yielded a shapefile that could be easily weight by the number of parking spots in each location.
