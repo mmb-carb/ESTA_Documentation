@@ -1,6 +1,6 @@
 # ESTA Developers Guide
 
-ESTA is a Python-based model. It is designed as a stand-alone program, not as an installable Python library. The purpose of this document is to acquaint a potential developer with the ESTA code base so they can add new components and make updates to the model. This guide assumes an understanding of object-oriented programming in Python.
+ESTA is a Python-based model. It is designed as a stand-alone program, not as an installable Python library. The purpose of this document is to acquaint a potential developer with the ESTA code base so they can add new components and update the model. This guide assumes an understanding of object-oriented programming in Python.
 
 ## Table of Contents
 
@@ -230,7 +230,7 @@ The end result is that the above technology is a couple thousand times faster th
 
 ## Developing for ESTA
 
-ESTA is designed to be easily expanded by developers. The modular design means that changing the function of ESTA doesn't require touching the whole code base. Whether you want to read a different type of emissions file, add a special kind of spatial surrogate, or write a new type of output file, you should be able to do that by writing a single class and dropping it into a `src` module.
+ESTA is designed to be easily expanded by developers. The modular design means that changing the operation of ESTA doesn't require touching the whole code base. Whether you want to read a different type of emissions file, add a special kind of spatial surrogate, or write a new type of output file, you should be able to do that by writing a single class and dropping it into a `src` module.
 
 A common problem for scientists and engineers is that they spend more time wrangling files than analyzing their data. In ESTA, you can write a single class to read or write any file type. And once this class is placed correctly into ESTA, you never need to worry about file wrangling again. The goal of software should always be to help people get things done, not to be a drain on their time. For that reason, ESTA is 100% configurable and makes no demands on the structure of your input/output files or on the data structures you pass around.
 
