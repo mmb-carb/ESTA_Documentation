@@ -236,7 +236,7 @@ A common problem for scientists and engineers is that they spend more time wrang
 
 ### Implementing Your Own Step
 
-Perhaps the most important design goal in ESTA is the ability to replace a step with one of your own. Let's look at an example of doing just that. In the example below, we create a special temporal surrogate: `RushHour`. In this new temporal surrogate, all onroad traffic will happen in two hours of the day (8AM and 5PM), the other 22 hours of the day will have no traffic.
+Perhaps the most important design goal in ESTA is the ability to replace a step with one of your own. Let's look at an example of doing just that. In the example below, we create a special temporal surrogate: `RushHour`. In this new temporal surrogate, all onroad traffic will happen in two hours of the day (8AM and 5PM); the other 22 hours of the day will have no traffic.
 
 The first thing to do when implementing `RushHour` will be to sub-class the temporal surrogate loader `TemporalLoader` in `src.core.temporal_loader.py`:
 
@@ -247,7 +247,7 @@ The first thing to do when implementing `RushHour` will be to sub-class the temp
         def __init__(self, config, directory):
             super(RushHour, self).__init__(config, directory)
 
-The purpose of the `temporal_loader` subclass is to provide temporal surrogates. And in the case of on-road emissions, you will want diurnal and day-of-week surrogates. These are both created using the abstract `load` method. Because you will be default all regions (counties) to the same information, you will need a list of regions from the config file:
+The purpose of the `temporal_loader` subclass is to provide temporal surrogates. And in the case of on-road emissions, you will want diurnal and day-of-week surrogates. These are both created using the abstract `load` method. Because you will be defaulting all regions (counties) to the same information, you will need a list of regions from the config file:
 
     [Regions]
     regions: 1..69
@@ -334,7 +334,7 @@ If your domain is very small, or you want to quickly test a new domain, you coul
      ...
     }
 
-But there is a better way. Whether you are working with the counties, GAIs, states, or whatever. Chances are you already know the bounding boxes of your regions in lat/lon. Or you can at least come up with some. If so, there is a script you can use to generate the regional boxes file. It is in the default EMFAC input directory next to the GRIDCRO2D input files:
+But there is a better way. Whether you are working with the counties, GAIs, states, or whatever, chances are you already know the bounding boxes of your regions in lat/lon. Or you can at least come up with some. If so, there is a script you can use to generate the regional boxes file. It is in the default EMFAC input directory next to the GRIDCRO2D input files:
 
     ESTA/input/defaults/domains/preprocess_grid_boxes.py
 
@@ -343,7 +343,7 @@ This script is easy to use. For example, if you wanted to generate the grid doma
     cd input/defaults/domains/
     python preprocess_grid_boxes.py -gridcro2d GRIDCRO2D.California_12km_97x107 -rows 97 -cols 107  -regions california_counties_lat_lon_bounding_boxes.csv
 
-And this would print a nicely-formatted dictionary (JSON/Python) to the screen, which you can copy to a file called `county_boxes_ca_12km.py`.
+This would print a nicely-formatted dictionary (JSON/Python) to the screen, which you can copy to a file called `county_boxes_ca_12km.py`.
 
 
 [Back to Main Readme](../README.md)
