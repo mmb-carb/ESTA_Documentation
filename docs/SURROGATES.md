@@ -107,7 +107,7 @@ The number of parking spots was determined to be the best way to represent how a
 
 #### 30 Idle - 70 Dist
 
-This surrogate is simply a weighted sum of 30 percent of the Idling Locations surrogate above with 70 percent of the Distribution Centers surrogate above. In counties or GAIs where neither surrogate has any value, the missing data is filled in with the CalTrans CSTDM linehaul trucking surrogate.
+This surrogate is simply a weighted sum of 30 percent of the Idling Locations surrogate above with 70 percent of the Distribution Centers surrogate above. In counties or GAIs where neither surrogate has any value, the missing data is filled in with the CalTrans CSTDM linehaul trucking surrogate. This surrogate is used for the starting and idling emissions of heavy-duty diesel vehicles.
 
 The 30/70 split was derived from the data on [this page](http://energy.gov/eere/vehicles/fact-917-march-21-2016-work-truck-daily-idle-time-industry) of the energy.gov website.
 
@@ -117,7 +117,7 @@ This source was used as a reference because the EMFAC team also used it as a ref
 
 #### 90 idle - 10 dist
 
-This surrogate is simply a weighted sum of 90 percent of the Idling Locations surrogate above with 10 percent of the Distribution Centers surrogate. In counties or GAIs where neither surrogate has any value, the missing data is filled in with the CalTrans CSTDM linehaul trucking surrogate.
+This surrogate is simply a weighted sum of 90 percent of the Idling Locations surrogate above with 10 percent of the Distribution Centers surrogate. In counties or GAIs where neither surrogate has any value, the missing data is filled in with the CalTrans CSTDM linehaul trucking surrogate. This surrogate is used for idling emissions from linehaul vehicles.
 
 This 90/10 split was designed to match the EMFAC2014 assumption that nearly all of the idling done by linehaul trucks happens at places like truck stops. Linehaul truckers can, and frequently must, sleep in the cab of their vehicle with the engine running in an idling mode.
 
