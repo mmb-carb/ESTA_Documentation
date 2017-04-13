@@ -35,7 +35,7 @@ The [CalVAD database](https://www.arb.ca.gov/research/apr/past/11-316.pdf) uses 
 
 Because the real-life nature of CalVAD data makes the hourly variation quite messy, it was decided to use spatial surrogate for each of four daily time periods (matching those in the [CalTrans CSTDM](http://www.dot.ca.gov/hq/tpp/offices/omsp/statewide_modeling/cstdm.html) modeling):
 
-* off peak: 6 AM to 10 AM
+* am peak: 6 AM to 10 AM
 * midday:   10 AM to 3 PM
 * pm peak:  3 PM to 7 PM
 * off peak: 7 PM to 6 AM
