@@ -2,7 +2,7 @@
 
 > Emissions Spatial and Temporal Allocator
 
-ESTA is a command-line tool for processing raw emissions data into spatially and temporally-allocated emissions inventories, suitable for photochemicaly modeling or other analysis.
+[ESTA](https://github.com/mmb-carb/ESTA) is a command-line tool for processing raw emissions data into spatially and temporally-allocated emissions inventories, suitable for photochemicaly modeling or other analysis.
 
 
 ## ESTA Documentation
