@@ -19,14 +19,14 @@ As shown in Figure 1, the ESTA work flow is straight forward. In the first step,
 
 The above work flow is very general and can apply to gridding an on-road inventory, or any other kind of inventory. However, in practice, your work flow might be more complex. For instance, what if you want to read in multiple different kinds of emissions files? What if you want to read separate files for different kinds of temporal profiles: diurnal vs monthly? ESTA's modular design helps support these common types of work flows by allowing each box in Figure 1 to be replaced by a list of boxes / steps.
 
-## Detailed Example - On-Road with EMFAC2014
+## Example - On-Road with EMFAC2014
 
-To understand the ESTA structure and workflow better it might be helpful to look at an example simulation.
+To understand the ESTA structure and workflow it might be helpful to look at an example.
 
-Figure 2 below shows the work flow for spatially gridding the on-road emissions from EMFAC2014. Notice that some of the steps are now repeated for different file types.
+Figure 2 below shows the workflow for spatially gridding the on-road emissions from EMFAC2014. Notice that some of the steps are repeated for different file types.
 
-![Figure 2: ESTA work flow, EMFAC example](resources/esta_box_diagram_on_road.png)
-*Figure 2: ESTA work flow, EMFAC example*
+![Figure 2: ESTA workflow, EMFAC example](resources/esta_box_diagram_on_road.png)
+*Figure 2: ESTA workflow, EMFAC example*
 
 As shown in Figure 2, there are two implementations of the first "read emissions" step. This is because ARB reads monthly EMFAC files for Heavy-Duty Diesel emissions, but daily files for all other vehicle types. Being able to support reading two different kinds of input emissions files is important. The third step is also different, because ARB uses both diurnal and day-of-week temporal profiles from the [California Vehicle Activity Database](https://www.arb.ca.gov/research/apr/past/11-316.pdf) (CalVAD). Steps 2, 4, 5, and 6 are still just single boxes, but they have been replaced with the specific logic ARB needs when processing on-road emissions. For instance, step 5 writes NetCDF output files, formatted for CMAQ modeling. In practice, step 6 might have quite a few more boxes, as we can imagine wanting to do a lot of testing on our final output files.
 
@@ -34,4 +34,3 @@ ESTA is designed so that developers can create new versions of the steps above t
 
 
 [Back to Main Readme](../README.md)
-
