@@ -144,9 +144,16 @@ In most gridded inventory processing the number of rows, columns, and possibly l
     [GridInfo]
     rows: 291
     columns: 321
+    grid_size: 4000
     grid_cross_file: input/defaults/emfac2014/GRIDCRO2D.California_4km_291x321
 
 Here the variables `rows` and `columns` define the number of rows and columns in your modeling grid.
+
+#### grid_size
+
+This is an integer representing the size of each grid cell in meters.
+
+Typical values include: `1000`, `2000`, `4000`, `12000`, and `36000`.
 
 #### grid_cross_file
 
@@ -167,6 +174,7 @@ These GRIDCRO2D are the same files used in CMAQ to define the lat/lon corners of
         LON:units = "DEGREES         " ;
         LON:var_desc = "longitude (west negative)                                                       " ;
 
+If you are running with modern ARB-like spatial surrogates, you will not need this variable. It is only necessary for the older style DTIM-like spatial allocation.
 
 
 ### Surrogates
