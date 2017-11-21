@@ -11,7 +11,7 @@ The ESTA (Emissions Spatial and Temporal Allocator) model applies spatial and te
 
 ## How It Works
 
-ESTA is written in Python, using only free, open-source technology. It is a command-line program, executable on Linux, PC, or Mac. ESTA has a modular design to make it easier to upgrade, improve, and modify. The flow of the program is easy to understand, there are six basic steps:
+ESTA is written in Python 2.7, using only free, open-source technology. It is a command-line program, executable on Linux, PC, or Mac. ESTA has a modular design to make it easier to upgrade, improve, and modify. The flow of the program is easy to understand, there are six basic steps:
 
 ![Figure 1: ESTA workflow, generic version](resources/esta_box_diagram_1.png)
 *Figure 1: ESTA workflow, generic version*
