@@ -248,11 +248,13 @@ The first one is used for the default DTIM case, where the second column only po
 
 Example Locations:
 
+    input/defaults/domains/gai_boxes_ca_1km.py
+    input/defaults/domains/gai_boxes_ca_2km.py
     input/defaults/domains/gai_boxes_ca_4km.py
     input/defaults/domains/gai_boxes_ca_12km.py
     input/defaults/domains/gai_boxes_scaqmd_4km.py
 
-The Grid Boxes files define the I/J (grid cell) bounding boxes of each region in the modeling domain.  For instance, included for example with ESTA are Grid Boxes files that define the extent of each GAI in three different modeling grids: the California 4km grid, the California 12km grid, and the South Coast AQMD 4km modeling grid.
+The Grid Boxes files define the I/J (grid cell) bounding boxes of each region in the modeling domain.  For instance, included for example with ESTA are Grid Boxes files that define the extent of each GAI in three different modeling grids: the California 1km, 2km, 4km, and 12km grids, and the South Coast AQMD 4km modeling grid.
 
 These Grid Boxes files are used when ESTA takes a lat/lon coordinate and tries to find which I/J grid cell it is in.  This process is very slow when searching the entire modeling domain, but it can be sped up significantly if you already know which GAI the lat/lon point is in: there are fewer I/J grid cells to test.
 
