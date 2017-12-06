@@ -7,7 +7,7 @@ ESTA is a gridding model that takes raw emissions and applies spatial and tempor
 
 * [Spatial Surrogates](#spatial-surrogates)
   - [ARB On-Road Spatial Surrogates](#arb-on-road-spatial-surrogates)
-    + [CalVAD VMT by Day-of-Week and Period](#calvad-vmt-by-day-of-week-and-period)
+    + [CalVAD VMT by Period](#calvad-vmt-by-period)
     + [Linehaul](#linehaul)
     + [City Population](#city-population)
     + [Distribution Centers](#distribution-centers)
@@ -28,7 +28,7 @@ Several spatial surrogates are included in ESTA. These are all examples of on-ro
 
 ARB uses several spatial surrogates when modeling on-road emissions. Most of these surrogates are derived from real, measured traffic data from the [CalVAD database](https://www.arb.ca.gov/research/apr/past/11-316.pdf) to distribute VMT-based on-road emissions across the modeling grid. However, for linehual trucks the [CalTrans CSTDM](http://www.dot.ca.gov/hq/tpp/offices/omsp/statewide_modeling/cstdm.html) data was used, as it was believed to be a more cohesive view of the VMT for those vehicle types.  Unlike previous on-road models, ESTA also includes a series of spatial surrogates for the non-moving emissions from on-road vehicles: starting and resting emissions.
 
-#### CalVAD VMT by Day-of-Week and Period 
+#### CalVAD VMT by Period 
 
 The [CalVAD database](https://www.arb.ca.gov/research/apr/past/11-316.pdf) uses a variety of real-life traffic measurements to build a real picture of the traffic at the link-level across California. Because the CalTrans database uses real, measured traffic data, it is an extremely desirable ground-truth data set. Unfortunately, it does not include a lot of data about the vehicle types in traffic, as it is more expensive to collect that sort of data. Since the number of wheel axes were recorded for each measured vehicle, it was determined that heavy-heavy-duty vehicles (HHDV) could easily be subtracted from the data set, leaving a very representative sample for light-duty vehicles (LDV) and light-medium-duty vehicles (LMDV).
 
@@ -39,7 +39,7 @@ Because the real-life nature of CalVAD data makes the hourly variation quite mes
 * pm peak:  3 PM to 7 PM
 * off peak: 7 PM to 6 AM
 
-Any surrogate given to ESTA can be given alone, or as a set of four for the different time periods. In the config.ini file you simply have to name easy surrogate with the time-period endings: `_am`, `_mid`, `_pm`, and `_off`.
+Any surrogate given to ESTA can be given alone, or as a set of four for the different CalVAD time periods. In the config.ini file you simply have to name easy surrogate with the time-period endings: `_am`, `_mid`, `_pm`, and `_off`.
 
 Here is an example plot of the CalVAD-based VMT surrogate for California in 2012, during the "AM Peak" (or "Morning Rush Hour"):
 
@@ -132,9 +132,9 @@ Spatial surrogates were averaged from the entire 2012 data set, for six differen
 * Sunday
 * Holiday
 
-Thus, it was possible, for every county / GAI in California to generate a diurnal profile for three different vehicle categories and six different representative days of the week; for a total of 18 different temporal surrogates.
+Thus, it was possible, for every county (or GAI) in California to generate a diurnal profile for three different vehicle categories and six different representative days of the week; for a total of 18 different temporal surrogates.
 
-Upon discussion with the EMFAC team it was discovered that the EMFAC model assume that school busses only run for three hours in the morning and three hours in the evening on non-holiday weekdays. To keep the two models consistent, a fourth vehicle type was added to the Calvad surrogates, matching the assumptions in EMFAC.
+Upon discussion with the EMFAC team it was discovered that the EMFAC model assumes school busses only run for three hours in the morning and three hours in the evening on non-holiday weekdays. To keep the two models consistent, a fourth vehicle type was added to the Calvad surrogates, matching the assumptions in EMFAC.
 
 
 ### CalVAD-Based On-Road Day-of-Week Temporal Surrogates
