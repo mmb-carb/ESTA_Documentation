@@ -7,19 +7,19 @@
 
 ## ESTA Documentation
 
-For more information about what ESTA is and what it does, please see:
+For more information about what ESTA is and what it does, see:
 
 * [The Basic Introduction](docs/BASIC_INTRO.md)
 
-For more information about how to use ESTA, please see:
+For more information about how to use ESTA, see:
 
 * [The User's Guide](docs/USERS_GUIDE.md)
 
-For information about the default spatial and temporal surrogates included in ESTA, please see:
+For information about the default spatial and temporal surrogates included in ESTA, see:
 
 * [The Surrogate Guide](docs/SURROGATES.md)
 
-If you are a developer, looking to understand or improve ESTA, please see:
+If you are a developer, looking to understand or improve ESTA, see:
 
 * [The Developer's Guide](docs/DEVELOPERS.md)
 
