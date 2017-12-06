@@ -157,53 +157,37 @@ Typical values include: `1000`, `2000`, `4000`, `12000`, and `36000`.
 
 ### Surrogates
 
-This section covers the information needed to generate spatial and temporal surrogates. In the `example_onroad_ca_4km_dtim_pmeds.ini` file you will find this section looks something like:
+This section covers the information needed to generate spatial and temporal surrogates. In the `example_onroad_ca_4km_txt_simple.ini` file you will find this section looks something like:
 
     [Surrogates]
+    spatial_directories: input/defaults/surrogates/spatial/
+    spatial_loaders: SmokeSpatialSurrogateLoader
+    smoke4_surrogates: ON_ROAD_CA_110_4km_2013.txt
+                       ON_ROAD_CA_301_4km_2012.txt
+    smoke_eic_labels: trips
+                      vmt
+    eic_info: input/defaults/surrogates/spatial/eic_info.py
+    region_boxes: input/defaults/domains/gai_boxes_ca_4km.py
     temporal_directories: input/defaults/surrogates/temporal/
     temporal_loaders: CalvadTemporalLoader
     calvad_dow: calvad_gai_dow_factors_2012.csv
     calvad_diurnal: calvad_gai_diurnal_factors_2012.csv
-    spatial_directories: input/examples/onroad_emfac2014_santa_barbara/dtim4_gai_2012/
-    spatial_loaders: Dtim4Loader
-    eic_info: input/defaults/emfac2014/eic_info.py
-    region_boxes: input/defaults/domains/gai_boxes_ca_4km.py
-
-Where as in the `example_onroad_ca_4km_arb_pmeds.ini` file you will find it looks something like:
-
-    [Surrogates]
-    spatial_directories: input/examples/onroad_emfac2014_santa_barbara/spatial_surrogates/
-    spatial_loaders: CalvadSmoke4SpatialSurrogateLoader
-    smoke4_surrogates: ON_ROAD_CA_100_4km_2010.txt
-                       ON_ROAD_CA_110_4km_2013.txt
-                      ...
-                       ON_ROAD_CA_332_4km_2012.txt
-    smoke_eic_labels: linehaul
-                      pop
-                      ...
-                      vmt_holiday_pm
-    temporal_directories: input/defaults/surrogates/temporal/
-    temporal_loaders: CalvadTemporalLoader
-    calvad_dow: calvad_gai_dow_factors_2012.csv
-    calvad_diurnal: calvad_gai_diurnal_factors_2012.csv
-    region_boxes: input/defaults/domains/gai_boxes_ca_4km.py
-    eic_info: input/examples/onroad_emfac2014_santa_barbara/spatial_surrogates/eic_info.py
-
-The difference between these two default runs is that the `example_onroad_ca_4km_dtim_pmeds.ini` config file defines a run where all spatial allocation comes from DTIM4-ready road network files and match DTIM4 outputs. And the `example_onroad_ca_4km_arb_pmeds.ini` file defines a run which also uses SMOKE-ready spatial surrogates and supports ARB's modern on-road modeling.
 
 Let us go through these variables in more detail.
 
 The `spatial_loaders` variable is a space-separated list of class names used to generate spatial surrogates. Likewise, `temporal_loaders` is a list of class names to generate spatial surrogates.  The `spatial_directories` and `temporal_directories` are where the input files for the surrogates is found. The length of the `spatial_loaders` list and the length of the `spatial_directories` must be the same, and likewise for the temporal surrogates.
 
+Now, ESTA uses spatial surrogates (in the SMOKE v4 format) to spatially distribute on-road emissions. The actually surrogate text files are listed under `smoke4_surrogates`. Paired with this is a list of `smoke_eic_labels` that give a short, simple keyword describing each spatial surrogate. These keywords are used to map each type of emissions (EIC) to a particular spatial surrogate. The mapping is done in the `eic_info` file.
+
 The remaining four variables in the default config files are specific to on-road processing with EMFAC. The `calvad_dow` file is a simple CSV relating the total emissions for different vehicle classes and counties by day-of-week, relative to the typical weekday emissions output by EMFAC. The `calvad_diurnal` is a similar file for the diurnal patterns of various vehicle classes. Both of these files were taken from the [CalVAD](https://www.arb.ca.gov/research/apr/past/11-316.pdf) vehicle activity database.
 
-Finally, when `Smoke4Dtim4Loader` is given as a class for the `spatial_loaders` option, a list of SMOKE-ready spatial surrogates, `smoke4_surrogates`, needs to be provided along with the `eic_info` label to map EICs (Emissions Inventory Codes) to each of these surrogates.
+Finally, `region_boxes` contains the file path to a Python dictionary with the I/J bounding boxes of each region. This is used to speed up processing time. If you are not worried about time, or just want to run a quick test case, each bounding box can be the entire modeling domain.
 
 #### eic_info
 
 Example Locations:
 
-    input/defaults/emfac2014/eic_info.py
+    input/defaults/surrogates/spatial/eic_info.py
     input/examples/onroad_emfac2014_santa_barbara/spatial_surrogates/eic_info.py
 
 The `eic_info.py` file is used to help connect various data to each on-road Emission Inventory Codes (EICs) that we want to model.  The file contains a single Python dictionary mapping every EIC to a tuple containing the data we want associated with it.  The file will look something like:
@@ -215,7 +199,7 @@ The `eic_info.py` file is used to help connect various data to each on-road Emis
 
 In particular, each EIC maps to a tuple with three elements:
 
-1. The DTIM Column: The column (0-25) in the DTIM Link file that covers this EIC. <Do we always need DTIM column>
+1. The DTIM Column: The column (0-25) in the DTIM Link file that covers this EIC.
 2. Spatial Surrogate Code: A string representing which SMOKE v4 spatial surrogate that is used to cover this EIC.
 3. Scaling Fraction: This fraction is used to scale the emissions from this EIC. If the fraction is 1.0, the emissions are left unchanged. If the fraction is 0.5, you reduce the emissions by 50%. If the fraction is 3, you triple the emissions.
 
@@ -311,13 +295,12 @@ As long as the developer keeps this file format the same, they can easily interc
 
 Example Locations:
 
-    input/defaults/surrogates/spatial/ca/4km/gai/ON_ROAD_CA_100_4km_2010.txt
-    input/examples/onroad_emfac2014_santa_barbara/spatial_surrogates/ON_ROAD_CA_100_4km_2010.txt
+    input/defaults/surrogates/spatial/ON_ROAD_CA_110_4km_2013.txt
+    input/examples/onroad_emfac2014_santa_barbara/spatial_surrogates/ON_ROAD_CA_301_4km_2012.txt
 
 To spatially disaggregate EMFAC's county/GAI-wide emissions across the modeling domain, ESTA uses spatial surrogates.  As the US EPA's SMOKE model is already in wide use, it was decided that ESTA will use the SMOKE v4 area source spatial surrogate format. This is a simple plain-text file that defines what fraction of each county goes into each grid cell.
 
 For a more detailed description of the SMOKE area-source spatial surrogate file format, please see the [official SMOKE documentation][SMOKE].
-
 
 
 ### Emissions
@@ -426,7 +409,7 @@ The file format is used elsewhere at CARB, so several of the columns are unused:
 
 Example Location:
 
-    input/examples/onroad_emfac2014_santa_barbara/ncf/california_seasons_by_gai.csv
+    input/defaults/california/california_seasons_by_gai.csv
 
 The seasons CSV files is designed to map each month to a different season (Summer vs Winter) for the purposes of speciation in NetCDF file outputs. Because the speciation can vary region to region, this file allows for the possibility of different seasonal mappings for each and every region (county or GAI).  This is particularly useful for California's on-road modeling, as the fuels dispenses for heavy-duty diesel vehicles vary throughout the year in California's various air basins. This file allows the user to track those differences.
 
@@ -441,11 +424,11 @@ Here, the first column is the region code, and each column has a single letter; 
 
 ### Output
 
-The output section defines how the final output files from ESTA are created. In example_onroad_ca_4km_dtim_pmeds.ini you will see something like:
+The output section defines how the final output files from ESTA are created. In `example_onroad_ca_4km_txt_simple.ini` you will see something like:
 
     [Output]
-    directory: output/example_onroad_ca_4km_dtim/
-    writers: Pmeds1Writer
+    directory: output/example_onroad_ca_4km_simple/
+    writers: CseWriter
     by_region: True
     combine_regions: False
     eic_precision: 3
@@ -456,17 +439,16 @@ The `by_region` variable can be set to `True` if you want each county to have it
 
 The `eic_precision` option is used to define how detailed you want to output your emissions. For instance, the outputs can be written using full 14-digit EIC categories by setting this option to `14`. However, if the outputs are written using only the first three digits of the EIC, commonly referred to as EIC-3 (`eic_precision: 3`), the output files might be 100 times smaller.
 
-By contrast, in the input file example_onroad_ca_4km_arb_ncf.ini you will see something like:
+By contrast, in the input file `example_onroad_ca_4km_ncf_simple.ini` you will see something like:
 
     [Output]
-    directory: output/example_onroad_ca_4km_dtim/
+    directory: output/example_onroad_ca_4km_simple/
     writers: CmaqNetcdfWriter
     by_region: False
     gspro_file: input/examples/onroad_emfac2014_santa_barbara/ncf/gspro.cmaq.saprc.example.csv
     summer_gsref_file: input/examples/onroad_emfac2014_santa_barbara/ncf/gsref.cmaq.saprc.example.summer.csv
     winter_gsref_file: input/examples/onroad_emfac2014_santa_barbara/ncf/gsref.cmaq.saprc.example.winter.csv
-    inventory_version: v0100
-    speciation_version: saprc07_20170918
+    nox_file: input/examples/onroad_emfac2014_santa_barbara/ncf/heavy_duty_diesel_nox_fractions.csv
 
 This file generates output files that are in the CMAQ-ready NetCDF format. Notice that since NetCDF files do not contain EIC information the `eic_precision` variable is missing.
 
@@ -485,15 +467,15 @@ For more information on these file formats, please see the official documentatio
 
 The testing section exists to allow for automated QA/QC of the output ESTA results. If these fields are left blank, no tests will be run but nothing will break. Testing is optional.
 
-As an example of how ARB runs ESTA, the config file example_onroad_ca_4km_arb_pmeds.ini says:
+As an example of how ARB runs ESTA, the config file `example_onroad_ca_4km_txt_arb.ini` says:
 
     [Testing]
-    tests: EmfacPmedsTotalsTester EmfacPmedsDiurnalTester
+    tests: EmfacTxtTotalsTester EmfacTxtDiurnalTester
     dates: 2012-07-18
 
 Defining which test classes are run is handled by the `tests` variable, and the test results can be written to the output directory defined above. The `dates` variable gives you the option of spot-checking just certain dates in your time range.
 
-Please note that there are tests available in ESTA for PMEDS and NetCDF output files respectively. Because the NetCDF format does not contain EIC information, there are fewer testing options than there are for PMEDS files.
+Please note that there are tests available in ESTA for Text and NetCDF output files respectively. Because the NetCDF format does not contain EIC information, there are fewer testing options than there are for Text files.
 
 
 ### Misc
