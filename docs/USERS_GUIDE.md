@@ -49,7 +49,7 @@ There are a few features of the config files to note:
 
 ### Choosing a Class
 
-In order for ESTA to be useful, it has to be easy for the user to design their own run. Each step in the ESTA model chain has various options. For instance, if you are reading in some kind of emissions file, there will have to be a different Python [class](https://docs.python.org/2/tutorial/classes.html) designed to read that file type in ESTA. In order to select that class, all you have to do is list its name in the config file. For instance, in the default config file "example_onroad_ca_4km_dtim_pmeds.ini":
+In order for ESTA to be useful, it has to be easy for the user to design their own run. Each step in the ESTA model chain has various options. For instance, if you are reading in some kind of emissions file, there will have to be a different Python [class](https://docs.python.org/2/tutorial/classes.html) designed to read that file type in ESTA. In order to select that class, all you have to do is list its name in the config file. For instance, in the default config file `example_onroad_ca_4km_txt_simple.ini`:
 
     [Scaling]
     scalar: EmfacSmokeScaler
@@ -236,7 +236,7 @@ If your domain is very small, or you want to quickly test a new domain, you coul
      ...
     }
 
-But there is a better way, depending on whether you are working with the counties, GAIs, states, or whatever. Chances are you already know the bounding boxes of your regions in lat/lon or you can at least come up with some. If so, there is a script you can use to generate the regional boxes file. It is in the default EMFAC input directory next to the GRIDCRO2D input files:
+But there is a better way, depending on whether you are working with the counties, GAIs, states, or whatever. Chances are you already know the bounding boxes of your regions in lat/lon or you can at least come up with some. If so, there is a script you can use to generate the regional boxes file. It is in the default EMFAC input directory and requires WRF/CMAQ-standard GRIDCRO2D input files:
 
     ESTA/input/defaults/domains/preprocess_grid_boxes.py
 
