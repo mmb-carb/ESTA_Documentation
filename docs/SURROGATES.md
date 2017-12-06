@@ -14,7 +14,6 @@ ESTA is a gridding model that takes raw emissions and applies spatial and tempor
     + [Idling Locations](#idling-locations)
     + [30 Idle - 70 Dist](#30-idle---70-dist)
     + [90 Idle - 10 Dist](#90-idle---10-dist)
-  - [DTIM On-Road Spatial Surrogates](#dtim-on-road-spatial-surrogates)
 * [Temporal Surrogates](#temporal-surrogates)
   - [CalVAD-Based On-Road Diurnal Temporal Surrogates](#calvad-based-on-road-diurnal-temporal-surrogates)
   - [CalVAD-Based On-Road Day-of-Week Temporal Surrogates](#calvad-based-on-road-day-of-week-temporal-surrogates)
@@ -40,22 +39,11 @@ Because the real-life nature of CalVAD data makes the hourly variation quite mes
 * pm peak:  3 PM to 7 PM
 * off peak: 7 PM to 6 AM
 
-Spatial surrogates were averaged from the entire 2012 data set, for eight different representative days:
+Any surrogate given to ESTA can be given alone, or as a set of four for the different time periods. In the config.ini file you simply have to name easy surrogate with the time-period endings: `_am`, `_mid`, `_pm`, and `_off`.
 
-* Monday
-* Tuesday
-* Wednesday
-* Thursday
-* Friday
-* Saturday
-* Sunday
-* Holiday
+Here is an example plot of the CalVAD-based VMT surrogate for California in 2012, during the "AM Peak" (or "Morning Rush Hour"):
 
-Thus, between the four time periods and eight days, ARB uses 32 CalVAD-based VMT spatial surrogates when gridding EMFAC on-road emissions.
-
-Here is an example plot of the CalVAD-based VMT surrogate for Wednesdays in California in 2012, during the "AM Peak" (or "Morning Rush Hour"):
-
-![CalVAD VMT for Wednesdays 2012 AM](resources/ON_ROAD_CA_309_4km_2012.png)
+![CalVAD VMT for 2012 AM](resources/ON_ROAD_CA_309_4km_2012.png)
 
 #### Linehaul
 
@@ -124,16 +112,6 @@ This 90/10 split was designed to match the EMFAC2014 assumption that nearly all 
 There is some discussion among ARB staff of whether 90/10 or 95/5 is a better split for this surrogate. Perhaps this ratio will change in the future versions of EMFAC. If so, it will be changed to match in ESTA.
 
 ![90/10 Idling Surrogate](resources/ON_ROAD_CA_139_4km_2012.png)
-
-
-### DTIM On-Road Spatial Surrogates
-
-The DTIM mode in ESTA allows ESTA to read in DTIM-ready Link and TAZ input files. These are, in turn, used to spatially distribute emissions like DTIM does: via either VMT for moving emissions or by TAZ-centroids for non-moving emissions. Non-moving emissions are being starting emissions and the various resting losses. The only aspect of DTIM's spatial disaggregation that ESTA does not duplicate is the slight change in emissions in individual grid cells based on grid-cell variation of meteorology. ESTA accounts for this meteorology by running EMFAC using county-wide meteorology that has been VMT-averaged.
-
-Since DTIM spatial surrogates are determine on-the-fly by ESTA for given DTIM-ready Link or TAZ files, there are no example surrogates included in ESTA. There are example Link and TAZ files included at:
-
-    input/examples/onroad_emfac2014_santa_barbara/dtim4_gai_2012/057/dtim_link_057_tuth_17.dat
-    input/examples/onroad_emfac2014_santa_barbara/dtim4_gai_2012/057/dtim_taz_057_tuth_17.dat
 
 
 ## Temporal Surrogates
