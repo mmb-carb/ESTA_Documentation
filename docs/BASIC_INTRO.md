@@ -2,11 +2,12 @@
 
 > Emissions Spatial and Temporal Allocator
 
-The purpose of this document is give a clear understanding of what ESTA is, and what it does. This is not meant as a guide to how to run ESTA; you will find that in the [User Guide](USERS_GUIDE.md).
+This document explains what ESTA is, and what it does. This is not meant as a guide to using ESTA; you will find that in the [User Guide](USERS_GUIDE.md).
+
 
 ## Introduction
 
-The ESTA (Emissions Spatial and Temporal Allocator) model applies spatial and temporal surrogates to emissions to create top-down emission inventory files. The model is very general and can apply spatial and/or temporal surrogates to any kind of emissions file. However, ESTA was originally developed with the goal of gridding on-road emissions as a replacement for the DTIM model. Currently, the only default cases released with the ESTA model are for running on-road inventories.
+The ESTA (Emissions Spatial and Temporal Allocator) model applies spatial and temporal surrogates to emissions to create top-down emission inventory files. The model is very general and can apply spatial and/or temporal surrogates to any kind of emissions file. However, ESTA was originally developed with the goal of gridding on-road emissions as a replacement for the DTIM model. Currently, the only example cases released with the ESTA model are for running on-road inventories.
 
 
 ## How It Works
@@ -23,9 +24,9 @@ The above workflow is very general and can apply to gridding an on-road inventor
 
 ## Example - On-Road with EMFAC2014
 
-To understand the ESTA structure and workflow it might be helpful to look at an example.
+To better understand ESTA, let us look at an example.
 
-Figure 2 below shows the workflow for spatially gridding the on-road emissions from EMFAC2014. Notice that some of the steps are repeated for different file types.
+Figure 2 shows the workflow for spatially gridding the on-road emissions from EMFAC2014. Notice some of the steps are repeated for different file types.
 
 ![Figure 2: ESTA workflow, EMFAC example](resources/esta_box_diagram_on_road.png)
 *Figure 2: ESTA workflow, EMFAC example*
