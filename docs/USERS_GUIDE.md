@@ -23,11 +23,11 @@ The purpose of this document is to show new users how to run ESTA. This does not
 
 ESTA comes with some default configuration and input files, so you can test the model and learn how to use it. The first test is to generate on-road emissions on the 4km California modeling domain. Go to the command line and type:
 
-    ./esta.py config/example_onroad_ca_4km_dtim_pmeds.ini
+    ./esta.py config/example_onroad_ca_4km_txt_simple.ini
 
 Or you can type:
 
-    python esta.py config/example_onroad_ca_4km_dtim_pmeds.ini
+    python esta.py config/example_onroad_ca_4km_txt_simple.ini
 
 The default examples included with ESTA are designed to be fast, and should finish in well under a minute.
 
@@ -145,7 +145,6 @@ In most gridded inventory processing the number of rows, columns, and possibly l
     rows: 291
     columns: 321
     grid_size: 4000
-    grid_cross_file: input/defaults/emfac2014/GRIDCRO2D.California_4km_291x321
 
 Here the variables `rows` and `columns` define the number of rows and columns in your modeling grid.
 
@@ -154,27 +153,6 @@ Here the variables `rows` and `columns` define the number of rows and columns in
 This is an integer representing the size of each grid cell in meters.
 
 Typical values include: `1000`, `2000`, `4000`, `12000`, and `36000`.
-
-#### grid_cross_file
-
-Example Locations:
-
-    input/defaults/domains/GRIDCRO2D.California_4km_291x321
-    input/defaults/domains/GRIDCRO2D.California_12km_97x107
-    input/defaults/domains/GRIDCRO2D.SCAQMD_4km_102x156
-
-These GRIDCRO2D are the same files used in CMAQ to define the lat/lon corners of each modeling grid cell. This file type was chosen as it is already a community standard, and anyone wanting to run CMAQ will already have this file for their modeling domain.  For a full description of the file, see the [official CMAQ documentation](https://www.cmascenter.org/help/documentation.cfm).  In short, it is a Classic-type NetCDF binary file, with two variables that are relevant to ESTA and completely define the modeling grid:
-
-    float LAT(TSTEP, LAY, ROW, COL) ;
-        LAT:long_name = "LAT             " ;
-        LAT:units = "DEGREES         " ;
-        LAT:var_desc = "latitude (south negative)                                                       " ;
-    float LON(TSTEP, LAY, ROW, COL) ;
-        LON:long_name = "LON             " ;
-        LON:units = "DEGREES         " ;
-        LON:var_desc = "longitude (west negative)                                                       " ;
-
-If you are running with modern ARB-like spatial surrogates, you will not need this variable. It is only necessary for the older style DTIM-like spatial allocation.
 
 
 ### Surrogates
