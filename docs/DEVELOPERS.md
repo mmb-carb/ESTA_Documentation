@@ -69,21 +69,22 @@ Here is a basic diagram of ESTA's code structure, including some default on-road
          │              sparce_emissions.py
          │
          ├─── output/cmaqnetcdfwriter.py
+         │           csewriter.py
          │           pmeds1writer.py
          │
          ├─── scaling/emfac2cmaqscaler.py
          │            emfacsmokescaler.py
          │            scaled_emissions.py
          │
-         ├─── surrogates/calvadsmoke4spatialsurrogateloader.py
-         │               calvadtemporalloader.py
+         ├─── surrogates/smokespatialsurrogateloader.py
+         │               flexibletemporalloader.py
          │               dtim4loader.py
          │               spatial_surrogate.py
          │               temporal_surrogate.py
          │
          ├─── testing/emfacncftotaltester.py
-         │            emfacpmedsdiurnaltester.py
-         │            emfacpmedstotaltester.py
+         │            emfactxtdiurnaltester.py
+         │            emfactxttotaltester.py
 
 The `esta.py` run script in the home folder acts like an executable so the ESTA model can be run. Its major purpose is to take a path to the config file and call the `src.core.esta_model_builder.py` script. The `esta_model_builder.py` script breaks the config file into sections and options using the `CustomParser` class in `src.core.custom_parser.py`.
 
