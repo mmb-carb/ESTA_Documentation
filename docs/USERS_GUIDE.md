@@ -164,14 +164,14 @@ This section covers the information needed to generate spatial and temporal surr
     spatial_loaders: SmokeSpatialSurrogateLoader
     smoke4_surrogates: ON_ROAD_CA_110_4km_2013.txt
                        ON_ROAD_CA_301_4km_2012.txt
-    smoke_eic_labels: trips
-                      vmt
+    smoke_labels: TRIPS
+                  VMT
     eic_info: input/defaults/surrogates/spatial/eic_info.py
     region_boxes: input/defaults/domains/gai_boxes_ca_4km.py
     temporal_directories: input/defaults/surrogates/temporal/
-    temporal_loaders: CalvadTemporalLoader
-    calvad_dow: calvad_gai_dow_factors_2012.csv
-    calvad_diurnal: calvad_gai_diurnal_factors_2012.csv
+    temporal_loaders: FlexibleTemporalLoader
+    temporal_dow: calvad_gai_dow_factors_2012.csv
+    temporal_diurnal: calvad_gai_diurnal_factors_2012.csv
 
 Let us go through these variables in more detail.
 
@@ -179,7 +179,7 @@ The `spatial_loaders` variable is a space-separated list of class names used to 
 
 Now, ESTA uses spatial surrogates (in the SMOKE v4 format) to spatially distribute on-road emissions. The actually surrogate text files are listed under `smoke4_surrogates`. Paired with this is a list of `smoke_eic_labels` that give a short, simple keyword describing each spatial surrogate. These keywords are used to map each type of emissions (EIC) to a particular spatial surrogate. The mapping is done in the `eic_info` file.
 
-The remaining four variables in the default config files are specific to on-road processing with EMFAC. The `calvad_dow` file is a simple CSV relating the total emissions for different vehicle classes and counties by day-of-week, relative to the typical weekday emissions output by EMFAC. The `calvad_diurnal` is a similar file for the diurnal patterns of various vehicle classes. Both of these files were taken from the [CalVAD](https://www.arb.ca.gov/research/apr/past/11-316.pdf) vehicle activity database.
+The remaining four variables in the default config files are specific to on-road processing with EMFAC. The `temporal_dow` file is a simple CSV relating the total emissions for different vehicle classes and counties by day-of-week, relative to the typical weekday emissions output by EMFAC. The `temporal_diurnal` is a similar file for the diurnal patterns of various vehicle classes. Both of these files were generated from data in the [CalVAD](https://www.arb.ca.gov/research/apr/past/11-316.pdf) vehicle activity database.
 
 Finally, `region_boxes` contains the file path to a Python dictionary with the I/J bounding boxes of each region. This is used to speed up processing time. If you are not worried about time, or just want to run a quick test case, each bounding box can be the entire modeling domain.
 
@@ -192,18 +192,16 @@ Example Locations:
 
 The `eic_info.py` file is used to help connect various data to each on-road Emission Inventory Codes (EICs) that we want to model.  The file contains a single Python dictionary mapping every EIC to a tuple containing the data we want associated with it.  The file will look something like:
 
-    {71070111000000: (0, 'trips', 1.0),
-     71070611000000: (0, 'vmt', 1.0),
+    {71070111000000: ('LD', 'TRIPS', 1.0),
+     71070611000000: ('LD', 'VMT', 1.0),
      ...
-     78076854100000: (25, 'vmt', 1.0)}
+     78076854100000: ('LD', 'VMT', 1.0)}
 
-In particular, each EIC maps to a tuple with three elements:
+In particular, each EIC maps to a tuple with columns of data:
 
-1. The DTIM Column: The column (0-25) in the DTIM Link file that covers this EIC.
-2. Spatial Surrogate Code: A string representing which SMOKE v4 spatial surrogate that is used to cover this EIC.
-3. Scaling Fraction: This fraction is used to scale the emissions from this EIC. If the fraction is 1.0, the emissions are left unchanged. If the fraction is 0.5, you reduce the emissions by 50%. If the fraction is 3, you triple the emissions.
-
-The first one is used for the default DTIM case, where the second column only points to "vmt" or "trips". The second file is part of the Santa Barbara example, and the second tuple column points to SMOKE spatial surrogates for spatial disaggregation.
+* Column 1: A label used to define which temporal surrogate is used for this EIC
+* Column 2: A label used to define which temporal surrogate is used for this EIC
+* Column 3: An emissions scaling factor for this EIC. If the fraction is 1.0, the emissions are left unchanged. If the fraction is 0.5, you reduce the emissions by 50%. If the fraction is 3, you triple the emissions.
 
 
 #### region_boxes
@@ -248,7 +246,7 @@ This script is easy to use. For example, if you wanted to generate the grid doma
 This would print a nicely-formatted dictionary (JSON/Python) to the screen, which you can copy to a file called `county_boxes_ca_12km.py`.
 
 
-#### CalVAD Data
+#### Temporal Profiles
 
 ESTA uses temporal profiles taken from real-world traffic measurements, aggregated by the CalVAD database. In particular, ESTA includes two sets of on-road temporal profiles taken from CalVAD: one for diurnal profiles and one for day-of-week profiles.
 
@@ -257,7 +255,7 @@ As CalVAD is derived from real-world data, it only has three data types that are
 The CalVAD database was used to generate temporal profiles for 6 different weekday types: Sunday, Monday, Tuesday-through-Thursday, Friday, Saturday, and Holidays. Tuesday through Thursday are considered to be peak days in transportation modeling with generally the same amount of traffic each day.
 
 
-#### calvad_dow
+#### temporal_dow
 
 Example Location:
 
@@ -272,10 +270,10 @@ The CalVAD day-of-week profiles are given by GAI, day-of-week, and the four CalV
 
 Note that, by definition, we do not adjust the emissions from EMFAC for Tuesday-through-Thursday days.  This is because EMFAC is designed to output emissions for a typical week day. The purpose of the day-of-week emissions adjustments is to reflect the different traffic activity for other days of the week like Monday, Friday, Weekend and Holidays.
 
-As long as the developer keeps this file format the same, they can easily interchange this data with their own temporal profiles. For instance, a developer may have better data in their own local region for a particular vehicle type.
+As long as the developer keeps this file format the same, they can easily interchange this data with their own temporal profiles. For instance, a developer may have better data in their own local region for a particular vehicle type. A developer can also add or remove a vehicle type column, as long as they change the `eic_info.py` file to match the new set of labels.
 
 
-#### calvad_diurnal
+#### temporal_diurnal
 
 Example Location:
 
@@ -288,7 +286,7 @@ The CalVAD diurnal profiles are given by GAI, day-of-week, and the four CalVAD v
     1,sun,1,0.007435,0.010949,0.024310,0
     1,sun,2,0.005407,0.010759,0.022315,0
 
-As long as the developer keeps this file format the same, they can easily interchange this data with their own temporal profiles. For instance, if they have better data in their own local region for a particular vehicle type.
+As long as the developer keeps this file format the same, they can easily interchange this data with their own temporal profiles. For instance, if they have better data in their own local region for a particular vehicle type. A developer can also add or remove a vehicle type column, as long as they change the `eic_info.py` file to match the new set of labels.
 
 
 #### smoke4_surrogates
