@@ -311,6 +311,7 @@ This section is used to define the location of the raw emission input files, and
     emissions_loaders: Emfac2014CsvLoader
                        Emfac2014HdDslCsvLoader
     time_units: daily seasonally
+    vtp2eic: input/defaults/emfac2014/vtp2eic.py
 
 In the case of the default config files, there are two types of EMFAC2014 input files being read: HDV-diesel emissions are read seasonally, but all non-HDV-diesel emissions are read daily. This means there are two different classes used to read the two different file types (listed under `emissions_loaders`) and two different input directories (list under `emissions_directories`). There is also a spare variable, `time_units`, used to explicitly identify the time-resolution of each EMFAC input file.
 
@@ -365,6 +366,24 @@ This file looks much like the HD-diesel file, but has a column header:
 6. Fuel Type [short string: CAT, NCAT, DSL]
 7. Pollutants [short string - criteria, not detailed species]
 8. Emissions [float - tons/day]
+
+
+#### vtp2eic.py
+
+Example Location:
+
+    input/defaults/emfac2014/vtp2eic.py
+
+The `vtp2eic.py` file is used to map the EMFAC outputs to the EIC categories used by CARB.  EMFAC outputs emissions by vehicle categories such as:
+
+    LDA, CAT, RUNEX
+
+This is meant to represent "Light Duty Auto", "Catalytic Converter", and "Running Exhaust".  That is a great description, but CARB represents that using the EIC 71073411000000.  The `vtp2eic.py` file contains a single Python dictionary mapping these EMFAC codes to EIC, for example:
+
+    {('All Other Buses', 'DSL', 'IDLEX'): 77976512100000,
+     ('All Other Buses', 'DSL', 'PMBW'): 77976854100000,
+     ...
+     ('UBUS', 'NCAT', 'STREX'): 76270111000000}
 
 
 ### Scaling
@@ -427,13 +446,9 @@ The output section defines how the final output files from ESTA are created. In 
     [Output]
     directory: output/example_onroad_ca_4km_simple/
     writers: CseWriter
-    by_region: True
-    combine_regions: False
     eic_precision: 3
 
 The primary variables in this section are: `writers` which lists the output-creating classes, and `directories` which lists where you want the output files. All the rest of the variables in the default config files are specific to the EMFAC on-road process.
-
-The `by_region` variable can be set to `True` if you want each county to have its own output file or `False` if you want all counties in the same file.
 
 The `eic_precision` option is used to define how detailed you want to output your emissions. For instance, the outputs can be written using full 14-digit EIC categories by setting this option to `14`. However, if the outputs are written using only the first three digits of the EIC, commonly referred to as EIC-3 (`eic_precision: 3`), the output files might be 100 times smaller.
 
@@ -442,7 +457,6 @@ By contrast, in the input file `example_onroad_ca_4km_ncf_simple.ini` you will s
     [Output]
     directory: output/example_onroad_ca_4km_simple/
     writers: CmaqNetcdfWriter
-    by_region: False
     gspro_file: input/examples/onroad_emfac2014_santa_barbara/ncf/gspro.cmaq.saprc.example.csv
     summer_gsref_file: input/examples/onroad_emfac2014_santa_barbara/ncf/gsref.cmaq.saprc.example.summer.csv
     winter_gsref_file: input/examples/onroad_emfac2014_santa_barbara/ncf/gsref.cmaq.saprc.example.winter.csv
@@ -481,25 +495,7 @@ Please note that there are tests available in ESTA for Text and NetCDF output fi
 The miscellaneous section is just what it sounds like. In the case of the default config files, the miscellaneous section is used for input files that are shared between different processing steps.
 
     [Misc]
-    vtp2eic: input/defaults/emfac2014/vtp2eic.py
-
-
-#### vtp2eic.py
-
-Example Location:
-
-    input/defaults/emfac2014/vtp2eic.py
-
-The `vtp2eic.py` file is used to map the EMFAC outputs to the EIC categories used by CARB.  EMFAC outputs emissions by vehicle categories such as:
-
-    LDA, CAT, RUNEX
-
-This is meant to represent "Light Duty Auto", "Catalytic Converter", and "Running Exhaust".  That is a great description, but CARB represents that using the EIC 71073411000000.  The `vtp2eic.py` file contains a single Python dictionary mapping these EMFAC codes to EIC, for example:
-
-    {('All Other Buses', 'DSL', 'IDLEX'): 77976512100000,
-     ('All Other Buses', 'DSL', 'PMBW'): 77976854100000,
-     ...
-     ('UBUS', 'NCAT', 'STREX'): 76270111000000}
+    # this section intentionally left blank
 
 
 [Back to Main Readme](../README.md)
