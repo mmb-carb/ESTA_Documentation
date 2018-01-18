@@ -1,6 +1,6 @@
 # ESTA Developers Guide
 
-ESTA is a Python-based model. It is designed as a stand-alone program, not as an installable Python library. The purpose of this document is to acquaint a potential developer with the ESTA code base so they can add new components and update the model. This guide assumes an understanding of object-oriented programming in Python.
+ESTA is a Python-based model. It is designed as a stand-alone program, not as an installable Python library. The purpose of this document is to acquaint the potential developer with the ESTA code base so they can add new components or update the model. This guide assumes an understanding of object-oriented programming in Python.
 
 ## Table of Contents
 
@@ -19,13 +19,13 @@ ESTA is a Python-based model. It is designed as a stand-alone program, not as an
 
 ## Installation
 
-ESTA is designed to run on any major operating system using Python 2.7.x.  It requires a number of potential third-party libraries, depending on which modules you want to run.  For a list of these dependencies and their versions, the ESTA main folder includes a Python-standard `requirements.txt` file.
+ESTA is designed to run on any major operating system using Python 2.7.x.  It potentially requires a number of third-party libraries, depending on which modules the user wants to run.  For a list of these dependencies and their versions, the ESTA main folder includes a Python-standard `requirements.txt` file.
 
 ## Design Goals
 
-Modularity is a primary design goal for ESTA. Applying spatial surrogates and gridding an inventory is not, generally, a hard problem. The hard work is typically: (1) file wrangling and (2) the need for continuous updating. The goal is that ESTA should be sufficiently generic to allow for the gridding of any emission inventory, not just on-road inventories (which were the first, primary use of the model).
+Modularity is a primary design goal for ESTA. Applying spatial surrogates and gridding an inventory is not, generally, a hard problem. The hard work is typically: (1) file wrangling and (2) the need for continuous updating. The goal is that ESTA should be sufficiently generic to allow for the gridding of any emission inventory, not just on-road inventories (which were the first use of the model).
 
-The term modularity here is used to describe a model whose operation can be changed greatly by the non-programming end-user through a simple config file. The process of gridding an inventory is broken into six steps, each of which is defined by a piece of code that is independent and replaceable. In this way, the end-user can simply ask for different choices for each step and gain great power over their ESTA model run.
+The term modularity is here used to describe a model whose operation can be changed greatly by the non-programming end-user through a simple config file. The process of gridding an inventory is broken into six steps, each of which is defined by a piece of code that is independent and replaceable. In this way, the end-user can simply ask for different choices for each step and gain great power over their ESTA model run.
 
 ESTA was developed for Python 2.7.x, and needs to be able to run from the command line in a Linux environment. It should also run under Windows and the Mac OS, though these are not regularly tested.
 
@@ -33,7 +33,7 @@ ESTA was developed for Python 2.7.x, and needs to be able to run from the comman
 
 ESTA makes use of Python's object-oriented functionality to achieve the modularity described above. Each step in the modeling process is defined by an abstract class and users select which versions of each step they want in the config file by directly listing the class names. In addition, a few very general data structures are defined to hold the: emissions data, spatial surrogates, temporal surrogates, and final gridded emissions.
 
-What follows is a quick introduction into ESTA's basic code structure. Not every subclass of the core abstract classes will be shown, as ESTA will hopefully grow over time. Instead, a single example implementation of each core abstract class will be discussed.
+What follows is a quick introduction into the basic code structure of ESTA. Not every subclass of the core abstract classes will be shown, as ESTA will grow and change over time. Instead, a single example implementation of each core abstract class will be discussed.
 
 ### General Structure
 
@@ -70,7 +70,6 @@ Here is a basic diagram of ESTA's code structure, including some default on-road
          │
          ├─── output/cmaqnetcdfwriter.py
          │           csewriter.py
-         │           pmeds1writer.py
          │
          ├─── scaling/emfac2cmaqscaler.py
          │            emfacsmokescaler.py
