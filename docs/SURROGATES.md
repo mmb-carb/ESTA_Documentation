@@ -30,6 +30,8 @@ ARB uses several spatial surrogates when modeling on-road emissions. Most of the
 
 #### CalVAD VMT by Period 
 
+> NOTE: In the near future we may switch from CalVAD to ITN for VMT surrogates.
+
 The [CalVAD database](https://www.arb.ca.gov/research/apr/past/11-316.pdf) uses a variety of real-life traffic measurements to build a real picture of the traffic at the link-level across California. Because the CalTrans database uses real, measured traffic data, it is an extremely desirable ground-truth data set. Unfortunately, it does not include a lot of data about the vehicle types in traffic, as it is more expensive to collect that sort of data. Since the number of wheel axes were recorded for each measured vehicle, it was determined that heavy-heavy-duty vehicles (HHDV) could easily be subtracted from the data set, leaving a very representative sample for light-duty vehicles (LDV) and light-medium-duty vehicles (LMDV).
 
 Because the real-life nature of CalVAD data makes the hourly variation quite messy, it was decided to use spatial surrogate for each of four daily time periods (matching those in the [CalTrans CSTDM](http://www.dot.ca.gov/hq/tpp/offices/omsp/statewide_modeling/cstdm.html) modeling):
