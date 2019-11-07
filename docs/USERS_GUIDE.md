@@ -222,7 +222,7 @@ In particular, each EIC maps to a tuple with columns of data:
 * Column 2: A label used to define which temporal surrogate is used for this EIC
 * Column 3: An emissions scaling factor for this EIC. If the fraction is 1.0, the emissions are left unchanged. If the fraction is 0.5, you reduce the emissions by 50%. If the fraction is 3, you triple the emissions.
 
-The `eic_info_flagDPM.py` file is used if the diesel PM emissions are required in the output file. This file has the fourth column to determine the EIC that has diesel PM emissions or not (True, False).
+The `eic_info_flagDPM.py` file is used if the diesel PM emissions are required in the output file. This file has the fourth column to determine if the EIC has diesel PM emissions or not (True, False).
 
 
 #### region_boxes
