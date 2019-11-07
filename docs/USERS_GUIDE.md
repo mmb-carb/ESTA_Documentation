@@ -507,7 +507,7 @@ For more information on these file formats, please see the official documentatio
 
 The testing section exists to allow for automated QA/QC of the output ESTA results. If these fields are left blank, no tests will be run but nothing will break. Testing is optional.
 
-As an example of how ARB runs ESTA, the config file `example_onroad_ca_4km_txt_arb.ini` says:
+As an example of how ARB runs ESTA, the config file `example_onroad_ca_4km_txt_simple.ini` says:
 
     [Testing]
     tests: EmfacTxtTotalsTester
