@@ -89,13 +89,13 @@ Next, the nine sections above will be discussed in some detail, using examples f
 
 Most emissions inventories are estimated on a daily basis, even if they have hourly values. As such, this section allows the user to set the start and end dates for their run (both inclusive). Since these fields have to be passed as strings, there is also a `format` variable. The format must be something recognizable by the Python standard `datetime` module. Finally, all three config files also have a `base_year` variable, as emissions modeling frequently makes a distinction between base year and model year.
 
-All of the provided example config files are set up for the same Wednesday in the summer of 2012:
+All of the provided example config files are set up for the same Wednesday in the summer of 2017:
 
     [Dates]
     format: %Y-%m-%d
-    start: 2012-07-18
-    end: 2012-07-18
-    base_year: 2012
+    start: 2017-07-19
+    end: 2017-07-19
+    base_year: 2017
 
 
 ### Regions
@@ -112,9 +112,9 @@ For instance, if you wanted to select all 69 GAIs (Geographic Area of Interest) 
 
     regions: 1..69
 
-Or if you wanted to just select one region (say, the Santa Barbara GAI) you could change the available list of regions:
+Or if you wanted to just select one region (say, the San Diego GAI) you could change the available list of regions:
 
-    regions: 57
+    regions: 38
 
 Or you can list an arbitrary set of regions (say the 10 counties in the SCAQMD region):
 
@@ -135,6 +135,7 @@ The `gai_info.py` file has a dictionary of information for each GAI (because the
 * Air Basin [2 or 3-letter code]
 * District [2 or 3-letter code]
 * Name [Long-Form County Name string, with District]
+* County Name [County Name string]
 
 
 ### GridInfo
@@ -162,11 +163,29 @@ This section covers the information needed to generate spatial and temporal surr
     [Surrogates]
     spatial_directories: input/defaults/surrogates/spatial/
     spatial_loaders: SmokeSpatialSurrogateLoader
-    smoke4_surrogates: ON_ROAD_CA_110_4km_2013.txt
-                       ON_ROAD_CA_301_4km_2012.txt
-    smoke_labels: TRIPS
-                  VMT
-    eic_info: input/defaults/surrogates/spatial/eic_info.py
+    smoke4_surrogates: CA_800AM_4km_2015_hdv2016.txt
+                       CA_800MD_4km_2015_hdv2016.txt
+                       CA_800OFF_4km_2015_hdv2016.txt
+                       CA_800PM_4km_2015_hdv2016.txt
+                       ON_ROAD_CA_840_4km_2013.txt
+                       ON_ROAD_CA_853_4km_2017.txt
+                       ON_ROAD_CA_859_4km_2017.txt
+                       CA_809_4km_2012_ldv2016.txt
+                       CA_810_4km_2012_ldv2016.txt
+                       CA_811_4km_2012_ldv2016.txt
+                       CA_812_4km_2012_ldv2016.txt
+    smoke_labels: LINEHAUL_AM
+                  LINEHAUL_MID
+                  LINEHAUL_OFF
+                  LINEHAUL_PM
+                  POP
+                  30IDLE_70DIST
+                  90IDLE_10DIST
+                  VMT_AM
+                  VMT_MID
+                  VMT_OFF
+                  VMT_PM
+    eic_info: input/examples/onroad_emfac2014_santa_barbara/spatial_surrogates/eic_info.py
     region_boxes: input/defaults/domains/gai_boxes_ca_4km.py
     temporal_directories: input/defaults/surrogates/temporal/
     temporal_loaders: FlexibleTemporalLoader
@@ -187,12 +206,12 @@ Finally, `region_boxes` contains the file path to a Python dictionary with the I
 
 Example Locations:
 
-    input/defaults/surrogates/spatial/eic_info.py
     input/examples/onroad_emfac2014_santa_barbara/spatial_surrogates/eic_info.py
+    input/examples/onroad_emfac2014_santa_barbara/spatial_surrogates/eic_info_flagDPM.py
 
 The `eic_info.py` file is used to help connect various data to each on-road Emission Inventory Codes (EICs) that we want to model.  The file contains a single Python dictionary mapping every EIC to a tuple containing the data we want associated with it.  The file will look something like:
 
-    {71070111000000: ('LD', 'TRIPS', 1.0),
+    {71070111000000: ('LD', 'POP', 1.0),
      71070611000000: ('LD', 'VMT', 1.0),
      ...
      78076854100000: ('LD', 'VMT', 1.0)}
@@ -202,6 +221,8 @@ In particular, each EIC maps to a tuple with columns of data:
 * Column 1: A label used to define which temporal surrogate is used for this EIC
 * Column 2: A label used to define which temporal surrogate is used for this EIC
 * Column 3: An emissions scaling factor for this EIC. If the fraction is 1.0, the emissions are left unchanged. If the fraction is 0.5, you reduce the emissions by 50%. If the fraction is 3, you triple the emissions.
+
+The `eic_info_flagDPM.py` file is used if the diesel PM emissions are required in the output file. This file has the fourth column to determine the EIC has diesel PM emissions or not (True, False).
 
 
 #### region_boxes
@@ -293,8 +314,7 @@ As long as the developer keeps this file format the same, they can easily interc
 
 Example Locations:
 
-    input/defaults/surrogates/spatial/ON_ROAD_CA_110_4km_2013.txt
-    input/examples/onroad_emfac2014_santa_barbara/spatial_surrogates/ON_ROAD_CA_301_4km_2012.txt
+    input/examples/onroad_emfac2014_santa_barbara/spatial_surrogates/ON_ROAD_CA_840_4km_2013.txt
 
 To spatially disaggregate EMFAC's county/GAI-wide emissions across the modeling domain, ESTA uses spatial surrogates.  As the US EPA's SMOKE model is already in wide use, it was decided that ESTA will use the SMOKE v4 area source spatial surrogate format. This is a simple plain-text file that defines what fraction of each county goes into each grid cell.
 
@@ -306,28 +326,28 @@ For a more detailed description of the SMOKE area-source spatial surrogate file 
 This section is used to define the location of the raw emission input files, and the classes used to read them.
 
     [Emissions]
-    emissions_directories: input/examples/onroad_emfac2014_santa_barbara/emfac2014_2012/ldv/
-                           input/examples/onroad_emfac2014_santa_barbara/emfac2014_2012/hdv/
+    emissions_directories: input/examples/onroad_emfac2017/emfac2017_2017/ldv/
+                           input/examples/onroad_emfac2017/emfac2017_2017/hdv/
     emissions_loaders: Emfac2014CsvLoader
                        Emfac2014HdDslCsvLoader
-    time_units: daily seasonally
+    time_units: daily daily_hd
     vtp2eic: input/defaults/emfac2014/vtp2eic.py
 
-In the case of the default config files, there are two types of EMFAC2014 input files being read: HDV-diesel emissions are read seasonally, but all non-HDV-diesel emissions are read daily. This means there are two different classes used to read the two different file types (listed under `emissions_loaders`) and two different input directories (list under `emissions_directories`). There is also a spare variable, `time_units`, used to explicitly identify the time-resolution of each EMFAC input file.
+In the case of the default config files, there are two types of EMFAC2017 input files being read: HDV-diesel emissions are read daily, and all non-HDV-diesel emissions are also read daily. However, the file format for the HDV-diesel emissions is different from the non-HDV-diesel emissions. This means there are two different classes used to read the two different file types (listed under `emissions_loaders`) and two different input directories (list under `emissions_directories`). There is also a spare variable, `time_units`, used to explicitly identify the time-resolution of each EMFAC input file.
 
 #### On-Road HDV-Diesel Emissions Files
 
 Example Locations:
 
-    input/examples/onroad_emfac2014_santa_barbara/emfac2014_2012/hdv/hd_summer/emfac_hd_summer.csv_all
+    input/examples/onroad_emfac2017/emfac2017_2017/hdv/07/19/emfac_hd.csv_all
 
-One of the primary inputs to ESTA is emissions.  In the case of on-road modeling, one of the primary inputs is Heavy-Duty (HD) diesel emissions.  As it happens, these are provided to ESTA in the form of season-average emissions because the daily variation of meteorology does not greatly affect the emissions from HD diesel vehicles.
+One of the primary inputs to ESTA is emissions.  In the case of on-road modeling, one of the primary inputs is Heavy-Duty (HD) diesel emissions.
 
 These input files are a simple (headerless) CSV that look like:
 
-    2012,Santa Barbara (SCC),1.2e-06,IDLEX,T6 CAIRP heavy,TOG
-    2012,Santa Barbara (SCC),0.3,RUNEX,T6 instate heavy,NOx
-    2012,Santa Barbara (SCC),0.001,RUNEX,T6 instate construction heavy,PM
+    2017,San Diego (SD),7.87964551881e-06,IDLEX,T6 CAIRP heavy,TOG
+    2017,San Diego (SD),1.4689251402,RUNEX,T6 instate heavy,NOx
+    2017,San Diego (SD),0.000135038023127,IDLEX,T6 instate heavy,PM
 
 As the columns do not have a header, it might be helpful to define them:
 
@@ -343,29 +363,30 @@ As the columns do not have a header, it might be helpful to define them:
 
 Example Locations:
 
-    input/examples/onroad_emfac2014_santa_barbara/emfac2014_2012/ldv/07/18/emis/Santa_Barbara.csv.gz
+    input/examples/onroad_emfac2017/emfac2017_2017/ldv/07/19/San_Diego_SD_SD_emission.csv.gz
 
 One of the primary inputs to ESTA is emissions.  In the case of on-road modeling, one of the primary inputs is Light-Duty (LD) emissions.  Here "LD Emissions from EMFAC" actually means all non-HD-diesel emissions.  This is *mostly* LD, but also includes a small amount of HD-gasoline vehicles.
 
-Unlike the above HD emissions, LD on-road vehicle emissions depends heavily on meteorology. As such, we cannot take seasonal-average emissions, and must instead take daily emissions, that were generated by EMFAC using daily meteorology.
+LD on-road vehicle emissions depends heavily on meteorology. As such, we must take daily emissions, that were generated by EMFAC using daily meteorology.
 
 These input files are a simple (headered) CSV that looks like:
 
-    year,month,sub_area,vehicle_class,process,cat_ncat,pollutant,emission_tons_day
-    2012,7,Santa Barbara (SCC),LDA,HOTSOAK,NCAT,TOG,0.02
-    2012,7,Santa Barbara (SCC),LDA,PMTW,DSL,PM,0.0003
-    2012,7,Santa Barbara (SCC),LDA,RUNEX,CAT,NOx,0.9
+    calendar_year,season_month,sub_area,vehicle_class,fuel,process,cat_ncat,pollutant,emission
+    2017,July,San Diego (SD),LDA,Gas,RUNEX,CAT,CO,54.47585667535777
+    2017,July,San Diego (SD),LDA,Gas,RUNEX,CAT,TOG,1.7817632144777584
+    2017,July,San Diego (SD),LDA,Gas,RUNEX,CAT,NOx,2.934916038592325
 
 This file looks much like the HD-diesel file, but has a column header:
 
 1. Year that was modeled [4-digit integer]
-2. Month [integer (1 to 12)]
+2. Month [String]
 3. County (District) [String]
 4. Vehicle Type [detailed string]
-5. Vehicle Process [short string]
-6. Fuel Type [short string: CAT, NCAT, DSL]
-7. Pollutants [short string - criteria, not detailed species]
-8. Emissions [float - tons/day]
+5. Fuel [String: Gas, Dsl, Elec, NG] 
+6. Vehicle Process [short string]
+7. Fuel Type [short string: CAT, NCAT, DSL]
+8. Pollutants [short string - criteria, not detailed species]
+9. Emissions [float - tons/day]
 
 
 #### vtp2eic.py
@@ -392,8 +413,8 @@ The scaling section defines the classes used to scale the raw inventories using 
 
     [Scaling]
     scalar: EmfacSmokeScaler
-    nh3_inventory: input/defaults/emfac2014/nh3/rf2082_b_2012_20160212_onroadnh3.csv
-    month_to_season: input/examples/onroad_emfac2014_santa_barbara/ncf/california_seasons_by_gai.csv
+    nh3_inventory: input/defaults/emfac2014/nh3/onroad_nh3_co_2017_20160624_EF17.csv
+    month_to_season: input/defaults/california/california_seasons_by_gai.csv
 
 The `scalar` class listed is the heart of your ESTA run, performing an arbitrary amount of math to apply the surrogates to your emissions.
 
@@ -401,7 +422,7 @@ The `scalar` class listed is the heart of your ESTA run, performing an arbitrary
 
 Example Location:
 
-    input/defaults/emfac2014/nh3/rf2082_b_2012_20160212_onroadnh3.csv
+    input/defaults/emfac2014/nh3/onroad_nh3_co_2017_20160624_EF17.csv
 
 The NH3/CO inventory CSV file contains the NH3 and CO emissions from all on-road EICs, for all regions in California. This file is necessary because EMFAC2014 does not output NH3 emissions from on-road sources, but the NH3 is important in particulate matter modeling.  This file is used ad-hoc to calculate NH3 emissions from the CO emissions given by EMFAC.
 
@@ -444,7 +465,7 @@ Here, the first column is the region code, and each column has a single letter; 
 The output section defines how the final output files from ESTA are created. In `example_onroad_ca_4km_txt_simple.ini` you will see something like:
 
     [Output]
-    directory: output/example_onroad_ca_4km_simple/
+    directory: output/test_onroad_ca_4km_emfac2017_arb/
     writers: CseWriter
     eic_precision: 3
 
@@ -455,11 +476,11 @@ The `eic_precision` option is used to define how detailed you want to output you
 By contrast, in the input file `example_onroad_ca_4km_ncf_simple.ini` you will see something like:
 
     [Output]
-    directory: output/example_onroad_ca_4km_simple/
+    directory: output/test_onroad_ca_4km_emfac2017_arb/
     writers: CmaqNetcdfWriter
-    gspro_file: input/examples/onroad_emfac2014_santa_barbara/ncf/gspro.cmaq.saprc.example.csv
-    summer_gsref_file: input/examples/onroad_emfac2014_santa_barbara/ncf/gsref.cmaq.saprc.example.summer.csv
-    winter_gsref_file: input/examples/onroad_emfac2014_santa_barbara/ncf/gsref.cmaq.saprc.example.winter.csv
+    gspro_file: input/examples/onroad_emfac2014_santa_barbara/ncf/gspro.all.S07T.072618.072618
+    summer_gsref_file: input/examples/onroad_emfac2014_santa_barbara/ncf/gsref_14jun2019_2017s.txt
+    winter_gsref_file: input/examples/onroad_emfac2014_santa_barbara/ncf/gsref_14jun2019_2017w.txt
     nox_file: input/examples/onroad_emfac2014_santa_barbara/ncf/heavy_duty_diesel_nox_fractions.csv
 
 This file generates output files that are in the CMAQ-ready NetCDF format. Notice that since NetCDF files do not contain EIC information the `eic_precision` variable is missing.
@@ -468,6 +489,13 @@ The three new variables here all have to do with speciating EMFAC emissions.The 
 
 The last two are totally optional.  The `inventory_version` variable is just a string used to uniquely identify your model run. And `speciation_version` variable is just to allow the user to identify what version of speciation they use, if they are running NetCDF files.  Again, these are optional.
 
+If the diesel PM emissions are required in the output file, you will need to add the dpm variable.
+
+    dpm: DPM10
+         DPM25
+         DPM
+    
+    
 #### GSPRO / GSREF
 
 The GSPRO, GSREF, and molecular weight files included in the `[Output]` section are used to speciate the emissions that come from EMFAC and produce the model species that CMAQ needs.  As speciation is a big topic in photochemical modeling, it was determined that ESTA should not create a new type of input file for the job.  As such, the GSPRO / GSREF file types were taken from the US EPA's SMOKE v4 modeling system.
@@ -482,8 +510,8 @@ The testing section exists to allow for automated QA/QC of the output ESTA resul
 As an example of how ARB runs ESTA, the config file `example_onroad_ca_4km_txt_arb.ini` says:
 
     [Testing]
-    tests: EmfacTxtTotalsTester EmfacTxtDiurnalTester
-    dates: 2012-07-18
+    tests: EmfacTxtTotalsTester
+    dates: 2017-07-19
 
 Defining which test classes are run is handled by the `tests` variable, and the test results can be written to the output directory defined above. The `dates` variable gives you the option of spot-checking just certain dates in your time range.
 
