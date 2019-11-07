@@ -45,7 +45,7 @@ Any surrogate given to ESTA can be given alone, or as a set of four for the diff
 
 Here is an example plot of the CalVAD-based VMT surrogate for California in 2012, during the "AM Peak" (or "Morning Rush Hour"):
 
-![CalVAD VMT for 2012 AM](resources/ON_ROAD_CA_309_4km_2012.png)
+![CalVAD VMT for 2012 AM](resources/CA_809_4km_2012_ldv2016.png)
 
 #### Linehaul
 
@@ -64,7 +64,7 @@ Eight of the EMFAC 2014 vehicle categories are defined by the EMFAC model as "li
 
 The result is probably the most reliable VMT spatial surrogate for linehaul vehicles that has ever been produced for California:
 
-![ARB Linehaul Surrogate](resources/ON_ROAD_CA_100_4km_2010.png)
+![ARB Linehaul Surrogate AM](resources/CA_800AM_4km_2015_hdv2016.png)
 
 #### City Population
 
@@ -74,7 +74,7 @@ Older on-road gridding models, like DTIM, tried to use Census data to locate the
 
 To improve upon this, 2012 Census information on the number of households in each city was taken for the several hundred cities in California. That information was added to an ArcGIS shapefile of the city boundaries. The result was a shapefile that represents the population in cities. This file had to be edited slightly as the legal boundaries of coastal cities extend into the ocean three miles, which is inappropriate for on-road vehicle emissions. The ocean areas were trimmed off and the shapefile was weighted by the number of households per square area to create our "City Population" spatial surrogate:
 
-![ARB City Population Surrogate](resources/ON_ROAD_CA_110_4km_2013.png)
+![ARB City Population Surrogate](resources/ON_ROAD_CA_840_4km_2013.png)
 
 #### Distribution Centers
 
@@ -103,7 +103,7 @@ The 30/70 split was derived from the data on [this page](http://energy.gov/eere/
 
 This source was used as a reference because the EMFAC team also used it as a reference, and it is useful that both models have the same underlying assumptions. The 30/70 split itself was derived by taking a weighted average of the time spent idling in different locations, across all non-line-haul heavy-duty vehicle types. The idling time range from 24-32%, for all types of HD trucks. So this surrogate is based on the time-split between how much idling is done at the kinds of places linehaul trucks idle versus other locations, like distribution centers.
 
-![30/70 Idling Surrogate](resources/ON_ROAD_CA_133_4km_2012.png)
+![30/70 Idling Surrogate](resources/ON_ROAD_CA_853_4km_2017.png)
 
 #### 90 idle - 10 dist
 
@@ -113,7 +113,7 @@ This 90/10 split was designed to match the EMFAC2014 assumption that nearly all 
 
 There is some discussion among ARB staff of whether 90/10 or 95/5 is a better split for this surrogate. Perhaps this ratio will change in the future versions of EMFAC. If so, it will be changed to match in ESTA.
 
-![90/10 Idling Surrogate](resources/ON_ROAD_CA_139_4km_2012.png)
+![90/10 Idling Surrogate](resources/ON_ROAD_CA_859_4km_2017.png)
 
 
 ## Temporal Surrogates
