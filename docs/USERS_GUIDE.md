@@ -269,16 +269,18 @@ This would print a nicely-formatted dictionary (JSON/Python) to the screen, whic
 
 #### Temporal Profiles
 
-ESTA uses temporal profiles taken from real-world traffic measurements, aggregated by the CalVAD database. In particular, ESTA includes two sets of on-road temporal profiles taken from CalVAD: one for diurnal profiles and one for day-of-week profiles.
+ESTA uses temporal profiles taken from real-world traffic measurements, aggregated by the CalVAD and PeMS database. In particular, ESTA includes two sets of on-road temporal profiles taken from CalVAD (Light-Duty vehicles and Light and Medium-Duty trucks) and PeMS (Heavy-Duty trucks): one for diurnal profiles and one for day-of-week profiles.
 
-As CalVAD is derived from real-world data, it only has three data types that are relevant to modeling using EMFAC2014: Light-Duty, Medium-Duty, and Heavy-Duty.  In addition, temporal profiles were added for one special case scenario: School Busses, whose driving patterns are quite regular.
+As CalVAD is derived from real-world data, it only has three data types that are relevant to modeling using EMFAC2014: Light-Duty, Medium-Duty, and Heavy-Duty.  In addition, temporal profiles were added for one special case scenario: School Busses, whose driving patterns are quite regular.  However, the Heavy-Duty fractions are replaced by the PeMS Heavy-Duty fractions.
 
 The CalVAD database was used to generate temporal profiles for 6 different weekday types: Sunday, Monday, Tuesday-through-Thursday, Friday, Saturday, and Holidays. Tuesday through Thursday are considered to be peak days in transportation modeling with generally the same amount of traffic each day.
+
+The PeMS database was used to generate the daily temporal profile for a specific year.
 
 
 #### temporal_dow
 
-Example Location:
+Example Location for CALVAD:
 
     input/defaults/surrogates/temporal/calvad_gai_dow_factors_2012.csv
 
@@ -293,10 +295,22 @@ Note that, by definition, we do not adjust the emissions from EMFAC for Tuesday-
 
 As long as the developer keeps this file format the same, they can easily interchange this data with their own temporal profiles. For instance, a developer may have better data in their own local region for a particular vehicle type. A developer can also add or remove a vehicle type column, as long as they change the `eic_info.py` file to match the new set of labels.
 
+Example Location for PeMS:
+
+    input/defaults/surrogates/temporal/doy_fractions_2021_truck_final.csv
+
+The PeMS day-of-week profiles are given by calendar date, Julian day, hour, GAI, county name, hourly fraction for the Heavy-Duty trucks, and daily fraction for the Heavy-Duty trucks.  The CSV file format used is
+
+    Date,JDay,Hr,GAI,County_Name,hr_frac,day_frac
+    2021-01-01,1,0,6001,Alpine,0.0132445848953555,0.817519103985417
+    2021-01-01,1,1,6001,Alpine,0.00889622145247005,0.817519103985417
+    2021-01-01,1,2,6001,Alpine,0.00749061726559167,0.817519103985417
+
+Please note that the PeMS diurnal profiles (hourly fraction) and day-of-week profiles (daily fraction) are combined into a single csv file.
 
 #### temporal_diurnal
 
-Example Location:
+Example Location for CALVAD:
 
     input/defaults/surrogates/temporal/calvad_gai_diurnal_factors_2012.csv
 
