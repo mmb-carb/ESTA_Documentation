@@ -28,7 +28,7 @@ To better understand ESTA, let us look at an example.
 
 Figure 2 shows the workflow for spatially gridding the on-road emissions from EMFAC2021. Notice some of the steps are repeated for different file types.
 
-![Figure 2: ESTA workflow, EMFAC example](resources/esta_box_diagram_on_road1.png)
+![Figure 2: ESTA workflow, EMFAC example](resources/esta_box_diagram_on_road_EF21.png)
 *Figure 2: ESTA workflow, EMFAC example*
 
 As shown in Figure 2, there are two implementations of the first "read emissions" step. This is because the daily EMFAC files for Heavy-Duty Diesel emissions have different file format than the daily files for all other vehicle types. Being able to support reading two different kinds of input emissions files is important. The third step is also different, because ARB uses both diurnal and day-of-week temporal profiles from the [California Vehicle Activity Database](https://www.arb.ca.gov/research/apr/past/11-316.pdf) (CalVAD). Steps 2, 4, 5, and 6 are still just single boxes, but they have been replaced with the specific logic ARB needs when processing on-road emissions. For instance, step 5 writes NetCDF output files, formatted for CMAQ modeling. In practice, step 6 might have quite a few more boxes, as we can imagine wanting to do a lot of testing on our final output files.
