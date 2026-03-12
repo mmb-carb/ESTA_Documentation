@@ -432,28 +432,6 @@ The scaling section defines the classes used to scale the raw inventories using 
 
 The `scalar` class listed is the heart of your ESTA run, performing an arbitrary amount of math to apply the surrogates to your emissions.
 
-#### nh3_inventory
-
-Example Location:
-
-    input/defaults/emfac2014/nh3/onroad_nh3_co_2017_20160624_EF17.csv
-
-The NH3/CO inventory CSV file contains the NH3 and CO emissions from all on-road EICs, for all regions in California. This file is necessary because EMFAC2014 does not output NH3 emissions from on-road sources, but the NH3 is important in particulate matter modeling.  This file is used ad-hoc to calculate NH3 emissions from the CO emissions given by EMFAC.
-
-The file format is used elsewhere at CARB, so several of the columns are unused:
-
-* FYEAR - Unused
-* CO - County [number]
-* AB - Air Basin [2 or 3-letter code]
-* DIS - District [2 or 3-letter code]
-* FACID - Unused
-* DEV - Unused
-* PROID - Unused
-* SCC - Unused
-* SIC - Unused
-* EIC - EIC [14-digit code]
-* POL - Pollutant Code [CEIDARS numerical code]
-* EMS - Emissions [decimal number in tons]
 
 #### month_to_season
 
