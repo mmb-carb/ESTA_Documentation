@@ -26,7 +26,7 @@ The above workflow is very general and can apply to gridding an on-road inventor
 
 To better understand ESTA, let us look at an example.
 
-Figure 2 shows the workflow for spatially gridding the on-road emissions from EMFAC2017. Notice some of the steps are repeated for different file types.
+Figure 2 shows the workflow for spatially gridding the on-road emissions from EMFAC2021. Notice some of the steps are repeated for different file types.
 
 ![Figure 2: ESTA workflow, EMFAC example](resources/esta_box_diagram_on_road1.png)
 *Figure 2: ESTA workflow, EMFAC example*
