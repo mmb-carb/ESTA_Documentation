@@ -299,14 +299,14 @@ Example Location for PeMS:
 
     input/defaults/surrogates/temporal/doy_fractions_2021_truck_final.csv
 
-The PeMS day-of-week profiles are given by calendar date, Julian day, hour, GAI, county name, hourly fraction for the Heavy-Duty trucks, and daily fraction for the Heavy-Duty trucks.  The CSV file format used is
+The PeMS day-of-week profiles are given by calendar date, Julian day, hour, GAI, county name, hourly fractions for the Heavy-Duty trucks, and daily fractions for the Heavy-Duty trucks.  The CSV file format used is
 
     Date,JDay,Hr,GAI,County_Name,hr_frac,day_frac
     2021-01-01,1,0,6001,Alpine,0.0132445848953555,0.817519103985417
     2021-01-01,1,1,6001,Alpine,0.00889622145247005,0.817519103985417
     2021-01-01,1,2,6001,Alpine,0.00749061726559167,0.817519103985417
 
-Please note that the PeMS diurnal profiles (hourly fraction) and day-of-week profiles (daily fraction) are combined into a single csv file.
+Please note that the PeMS diurnal profiles (hourly fractions) and day-of-week profiles (daily fractions) are combined into a single csv file.
 
 #### temporal_diurnal
 
