@@ -271,7 +271,7 @@ This would print a nicely-formatted dictionary (JSON/Python) to the screen, whic
 
 ESTA uses temporal profiles taken from real-world traffic measurements, aggregated by the CalVAD and PeMS database. In particular, ESTA includes two sets of on-road temporal profiles taken from CalVAD (Light-Duty vehicles and Light and Medium-Duty trucks) and PeMS (Heavy-Duty trucks): one for diurnal profiles and one for day-of-week profiles.
 
-As CalVAD is derived from real-world data, it only has three data types that are relevant to modeling using EMFAC2021: Light-Duty, Medium-Duty, and Heavy-Duty.  In addition, temporal profiles were added for one special case scenario: School Busses, whose driving patterns are quite regular.  However, the Heavy-Duty fractions are replaced by the PeMS Heavy-Duty fractions.
+As CalVAD is derived from real-world data, it only has three data types that are relevant to modeling using EMFAC2021: Light-Duty, Medium-Duty, and Heavy-Duty.  In addition, temporal profiles were added for one special case scenario: School Busses, whose driving patterns are quite regular.  However, the Heavy-Duty fractions are replaced by the PeMS daily Heavy-Duty fractions.
 
 The CalVAD database was used to generate temporal profiles for 6 different weekday types: Sunday, Monday, Tuesday-through-Thursday, Friday, Saturday, and Holidays. Tuesday through Thursday are considered to be peak days in transportation modeling with generally the same amount of traffic each day.
 
